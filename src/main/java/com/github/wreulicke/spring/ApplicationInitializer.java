@@ -1,8 +1,5 @@
 package com.github.wreulicke.spring;
 
-import javax.servlet.ServletContext;
-
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -24,10 +21,5 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     return new String[] {
       "/echo"
     };
-  }
-  @Override
-  protected void registerContextLoaderListener(ServletContext servletContext) {
-    super.registerContextLoaderListener(servletContext);
-    servletContext.addListener(new RequestContextListener());
   }
 }
