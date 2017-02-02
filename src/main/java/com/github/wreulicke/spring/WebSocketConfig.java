@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
   }
   
   @Bean 
-  public CustomScopeConfigurer customScopeConfigurer(){
+  public static CustomScopeConfigurer customScopeConfigurer(){
     CustomScopeConfigurer configurer = new CustomScopeConfigurer();
     configurer.addScope(WEB_SOCKET_SCOPE_NAME, new WebSocketScope());
     return configurer;
