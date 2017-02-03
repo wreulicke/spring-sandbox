@@ -33,6 +33,7 @@ public class EchoHandler extends TextWebSocketHandler {
   @Override
   protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     SocketSessionHolder.setSession(session);
+    System.out.println("start");
     try {
       WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
       System.out.println(context.getBean(TestService.class)
@@ -46,9 +47,8 @@ public class EchoHandler extends TextWebSocketHandler {
           e.printStackTrace();
         }
       });
-    } catch (Exception e2) {
-      e2.printStackTrace();
     } finally {
+      System.out.println("end");
       SocketSessionHolder.removeContext();
     }
   }
