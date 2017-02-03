@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class WebSocketScopeContainer {
-  private Map<String, ?> pool = new HashMap<>();
+  private Map<String, Object> pool = new HashMap<>();
 
   public Object remove(String name) {
     return pool.remove(name);
@@ -13,7 +13,12 @@ public class WebSocketScopeContainer {
 
   public Object get(String name, Supplier<?> supplier) {
     Object object = pool.get(name);
-    return object == null ? supplier.get() : object;
+    if (object == null) {
+      Object newObject = supplier.get();
+      pool.put(name, newObject);
+      return newObject;
+    }
+    return object;
   }
 
 }
