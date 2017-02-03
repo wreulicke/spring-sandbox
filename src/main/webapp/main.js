@@ -8,6 +8,9 @@ function test(url) {
   ws.onclose=bind(log, "close");
   ws.onerror=bind(log, "error");
   ws.onmessage=bind(log, "message");
-  ws.onopen=()=> ws.send("send text");
+  ws.onopen=()=> {
+	  ws.send("send text1");
+	  ws.send("send text2");
+  }
 }
 
