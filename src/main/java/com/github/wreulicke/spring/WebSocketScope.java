@@ -7,28 +7,36 @@ public class WebSocketScope implements Scope {
 
   @Override
   public Object get(String name, ObjectFactory<?> factory) {
-    return SocketSessionHolder.getCurrentContainer().get(name, factory::getObject);
+    return WebSocketSessionHolder.getCurrentContainer()
+      .get(name, factory::getObject);
   }
 
   @Override
   public String getConversationId() {
-    return SocketSessionHolder.current().getId();
+    return WebSocketSessionHolder.current()
+      .getId();
   }
 
   @Override
-  public void registerDestructionCallback(String name, Runnable arg1) {
-    // TODO Auto-generated method stub
-
+  public void registerDestructionCallback(String name, Runnable runnable) {
+    WebSocketSessionHolder.registerDestructionCallback(name, runnable);
   }
 
   @Override
   public Object remove(String name) {
-    return SocketSessionHolder.getCurrentContainer().remove(name);
+    WebSocketScopeContainer container = WebSocketSessionHolder.getCurrentContainer();
+    Object object = container.get(name);
+    if (object == null) {
+      return null;
+    }
+    else {
+      container.remove(name);
+      return object;
+    }
   }
 
   @Override
   public Object resolveContextualObject(String name) {
-    // TODO Auto-generated method stub
     return null;
   }
 

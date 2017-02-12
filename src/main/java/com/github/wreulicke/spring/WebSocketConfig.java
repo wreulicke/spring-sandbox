@@ -18,16 +18,16 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer {
   @Autowired
   EchoHandler echoHandler;
-  
+
   public static final String WEB_SOCKET_SCOPE_NAME = "test_webscoket";
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(echoHandler, "/echo");
   }
-  
-  @Bean 
-  public static CustomScopeConfigurer customScopeConfigurer(){
+
+  @Bean
+  public static CustomScopeConfigurer customScopeConfigurer() {
     CustomScopeConfigurer configurer = new CustomScopeConfigurer();
     configurer.addScope(WEB_SOCKET_SCOPE_NAME, new WebSocketScope());
     return configurer;
