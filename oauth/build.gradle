@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'com.diffplug.gradle.spotless'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:3.0.0'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+spotless {
+    def headerFile = "/** "+project.file('../LICENSE.md').text+"*/"
+
+    java {
+        licenseHeader headerFile, '(package|import) '
+        eclipseFormatFile project.file('eclipse-format-setting.xml')
+
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'com.h2database:h2'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.jmockit:jmockit:1.21'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.2.0'
+    
+    compileOnly  'org.projectlombok:lombok:1.16.4'
+    testCompileOnly   'org.projectlombok:lombok:1.16.4'
+}
