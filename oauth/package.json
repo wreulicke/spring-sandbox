@@ -1,0 +1,50 @@
+{
+  "name": "spring-sandbox",
+  "version": "1.0.0",
+  "description": "\"# spring-sandbox\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wreulicke/spring-sandbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wreulicke/spring-sandbox/issues"
+  },
+  "homepage": "https://github.com/Wreulicke/spring-sandbox#readme",
+  "devDependencies": {
+    "@types/jest": "^18.1.1",
+    "@types/react": "^15.0.13",
+    "@types/react-dom": "^0.14.23",
+    "jest": "^19.0.2",
+    "jest-cli": "^19.0.2",
+    "ts-jest": "^19.0.0",
+    "ts-loader": "^2.0.1",
+    "ts-node": "^2.1.0",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "src/test/front/.*\\.ts$"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}
