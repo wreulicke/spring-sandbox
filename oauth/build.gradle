@@ -39,6 +39,13 @@ spotless {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.thymeleaf:thymeleaf:3.0.0.RELEASE'
+    compile 'org.thymeleaf:thymeleaf-spring4:3.0.0.RELEASE'
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.0.RELEASE'
+    
     compile 'com.h2database:h2'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
