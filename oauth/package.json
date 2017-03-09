@@ -23,7 +23,6 @@
     "@types/react": "^15.0.13",
     "@types/react-dom": "^0.14.23",
     "jest": "^19.0.2",
-    "jest-cli": "^19.0.2",
     "ts-jest": "^19.0.0",
     "ts-loader": "^2.0.1",
     "ts-node": "^2.1.0",
@@ -41,7 +40,8 @@
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "src/test/front/.*\\.ts$"
+    "testRegex": "src/test/front/.*\\.ts$",
+    "collectCoverage": true
   },
   "dependencies": {
     "react": "^15.4.2",
