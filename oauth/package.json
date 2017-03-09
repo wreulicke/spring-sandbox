@@ -41,8 +41,13 @@
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "src/test/front/.*\\.ts$",
-    "collectCoverage": true
+    "testMatch": [
+      "**/src/test/front/**/*.ts?(x)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/main/front/**/*.ts?(x)"
+    ]
   },
   "dependencies": {
     "react": "^15.4.2",
