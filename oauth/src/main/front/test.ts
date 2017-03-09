@@ -1,7 +1,7 @@
 
-export default function(){
+export default function () {
   console.log("test")
-  if(typeof window=="object"){
+  if (typeof window == "object") {
     console.log("not reached")
   }
 }
