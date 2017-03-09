@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  hello out friend.
+  <form id="login_form" method="post" action="/login/post">
+    <label>ログインID</label>
+    <input type="text" id="login_id" name="login_id" placeholder="ログインIDを入力してください" autofocus="" required="" />
+    <label>パスワード</label>
+    <input type="password" id="login_password" name="login_password" placeholder="パスワードを入力してください" required="" />
+    <input id="login_button" type="submit" value="ログイン" />
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  </form>
+</body>
+
+</html>

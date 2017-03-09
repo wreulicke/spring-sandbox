@@ -1,0 +1,5 @@
+    
+security:
+  user:
+    name: test
+    password: test
