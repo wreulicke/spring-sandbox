@@ -5,8 +5,13 @@ module.exports = {
     contentBase: "./src/main/resources/static/",
     port: 3000,
     proxy: {
-      '/': {
+      '/**/*': {
         target: 'http://localhost:8080',
+        bypass: function(req) {
+          if (req.url === "/" || req.url.indexOf('.') !== -1) {
+            return req.url
+          }
+        }
       }
     },
   },
