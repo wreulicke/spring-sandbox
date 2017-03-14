@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title></title>
@@ -9,13 +9,12 @@
 
 <body>
   hello out friend.
-  <form id="login_form" method="post" action="/login/post">
+  <form id="login_form" method="post" th:action="@{/login/post}">
     <label>ログインID</label>
-    <input type="text" id="login_id" name="login_id" placeholder="ログインIDを入力してください" autofocus="" required="" />
+    <input type="text" id="login_id" name="login_id" placeholder="ログインIDを入力してください" autofocus="autofocus" required="required" />
     <label>パスワード</label>
-    <input type="password" id="login_password" name="login_password" placeholder="パスワードを入力してください" required="" />
+    <input type="password" id="login_password" name="login_password" placeholder="パスワードを入力してください" required="required" />
     <input id="login_button" type="submit" value="ログイン" />
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
   </form>
 </body>
 
