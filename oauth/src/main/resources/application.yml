@@ -4,9 +4,6 @@ security:
     name: test
     password: test
 spring:
-  h2:
-    console:
-      enabled:true
   jpa:
     show-sql: true
     hibernate:
