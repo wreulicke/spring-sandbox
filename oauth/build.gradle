@@ -47,7 +47,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-devtools'
-    
+    compile 'org.flywaydb:flyway-core'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.thymeleaf:thymeleaf:3.0.2.RELEASE'
     compile 'org.thymeleaf:thymeleaf-spring4:3.0.2.RELEASE'
