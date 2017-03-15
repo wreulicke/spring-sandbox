@@ -21,13 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.domain;
+package com.github.wreulicke.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.util.List;
 
-@AllArgsConstructor
-@Data
-public class User {
-  private String name;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+@RepositoryRestResource(collectionResourceRel = "people", path = "people")
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+
+  List<User> findByName(@Param("name") String name);
+
 }

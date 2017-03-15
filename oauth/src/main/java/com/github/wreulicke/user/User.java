@@ -21,28 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.entry;
+package com.github.wreulicke.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.github.wreulicke.user.User;
-import com.github.wreulicke.user.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@RestController
-public class UserController {
-  @Autowired
-  UserRepository users;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Table(name = "user")
+@Entity
+public class User {
 
-  @GetMapping("/test")
-  public User user() {
-    return new User(1L, "test");
-  }
-
-  @GetMapping("/user")
-  public Iterable<User> users() {
-    users.save(new User(null, "ccc"));
-    return users.findAll();
-  }
+  @Id
+  @GeneratedValue
+  private Long id;
+  private String name;
 }

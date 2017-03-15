@@ -41,18 +41,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     log.debug("security configure");
     http.csrf()
       .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
     http.authorizeRequests()
       .antMatchers("/login")
       .permitAll()
       .anyRequest()
       .authenticated();
+
     http.formLogin()
       .loginProcessingUrl("/login/post")
       .loginPage("/login")
       .defaultSuccessUrl("/")
       .usernameParameter("login_id")
-      .passwordParameter("login_password")
-      .and();
+      .passwordParameter("login_password");
+
     http.logout()
       .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
       .logoutSuccessUrl("/login")
