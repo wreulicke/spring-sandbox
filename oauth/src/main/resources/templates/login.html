@@ -2,20 +2,74 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title></title>
+  <title>ログイン画面</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css" />
+  <style>
+    html,
+    body {
+      background-color: #00d1b2;
+      height: 100%;
+    }
+    
+    .root {
+      height: 100%;
+      padding-bottom: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .border-pad>.container {
+      background-color: white;
+    }
+    
+    .border-pad {
+      background-color: white;
+      padding: 10px;
+    }
+  </style>
 </head>
 
 <body>
-  hello out friend.
-  <form id="login_form" method="post" th:action="@{/login/post}">
-    <label>ログインID</label>
-    <input type="text" id="login_id" name="login_id" placeholder="ログインIDを入力してください" autofocus="autofocus" required="required" />
-    <label>パスワード</label>
-    <input type="password" id="login_password" name="login_password" placeholder="パスワードを入力してください" required="required" />
-    <input id="login_button" type="submit" value="ログイン" />
-  </form>
+  <div class="root">
+    <div class="border-pad">
+      <div class="container">
+        <header class="header">
+          <div class="container">
+            <div class="nav">
+              <h1 class="nav-item title is-2">Login Form</h1>
+            </div>
+          </div>
+        </header>
+        <div class="container">
+          <form id="login_form" method="post" th:action="@{/login/post}">
+            <div class="field">
+              <p class="controll">
+                <label>Password</label>
+                <input class="input" type="password" id="login_password" name="login_password" placeholder="password" required="required"
+                />
+              </p>
+            </div>
+            <div class="field">
+              <p class="controll">
+                <label>Login ID</label>
+                <input class="input" type="text" id="login_id" name="login_id" placeholder="id" autofocus="autofocus" required="required"
+                />
+              </p>
+            </div>
+            <div class="field">
+              <p class="controll">
+                <input class="button is-primary" id="login_button" type="submit" value="ログイン" />
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 
 </html>
