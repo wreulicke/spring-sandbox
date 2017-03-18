@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   devtool: "source-map",
-  entry: "./src/main/front/test.ts",
+  entry: "./src/main/front/test.tsx",
   output: {
     path: path.resolve("./src/main/resources/static/"),
     filename: "bundle.js",
@@ -28,11 +28,10 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [
-          {
-            loader: "ts-loader"
-          },
-        ]
+        loader: "ts-loader",
+        options: {
+          transpileOnly: true
+        }
       },
     ],
   },
