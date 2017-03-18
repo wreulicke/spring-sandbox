@@ -8,6 +8,7 @@
       "es2016",
       "es2017"
     ],
+    "jsx": "react",
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
@@ -23,8 +24,7 @@
     "listFiles": false,
     "stripInternal": true,
     "skipDefaultLibCheck": true,
-    "pretty": false,
-    "noEmitOnError": true
+    "pretty": false
   },
   "exclude": [
     "node_modules"
