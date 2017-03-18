@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   devtool: "source-map",
-  entry: "./src/main/front/test.tsx",
+  entry: "./src/main/front/index.tsx",
   output: {
     path: path.resolve("./src/main/resources/static/"),
     filename: "bundle.js",
