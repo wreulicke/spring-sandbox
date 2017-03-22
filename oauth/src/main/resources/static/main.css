@@ -1,0 +1,34 @@
+
+.post-form{
+  background-color: #00d1b2;
+  padding: 5px;
+}
+.post-form-header{
+  border-bottom:1px solid white;
+  margin-bottom:5px;
+}
+.post-user{
+  display: flex;
+  justify-content: flex-end;
+}
+.user{
+  margin-bottom:0.75rem;
+}
+.application{
+  padding: 5px;
+}
+.posts{
+  display: flex;
+  flex-wrap: wrap;
+}
+.post{
+  min-width: 200px;
+  margin: 5px;
+  flex-basis: 0;
+  justify-content: flex-end;
+}
+.delete-icon{
+  position: absolute;
+  right: 0;
+  bottom:0;
+}
