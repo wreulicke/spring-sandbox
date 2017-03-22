@@ -8,6 +8,10 @@
   dependencies:
     axios "*"
 
+"@types/eventemitter2@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/eventemitter2/-/eventemitter2-2.2.1.tgz#18715e1f658337912253837376e52fc6d1644e33"
+
 "@types/jest@^18.1.1":
   version "18.1.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-18.1.1.tgz#6f63488c64726900885ab9cd5697bb7fa1b416cc"
@@ -1087,6 +1091,10 @@ esutils@^2.0.2:
 etag@~1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.0.tgz#6f631aef336d6c46362b51764044ce216be3c051"
+
+eventemitter2@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-4.0.0.tgz#0754a5107f598ef36a21b56b2f08b047e8f895ec"
 
 eventemitter3@1.x.x:
   version "1.2.0"
