@@ -1,7 +1,8 @@
 import * as React from "react";
+import * as Post from "./model/post"
 
 type PostFormProps = {
-  post: (text: string) => void
+  post: (text: Post.Content) => void
 }
 class PostForm extends React.Component<PostFormProps, never>{
   onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
