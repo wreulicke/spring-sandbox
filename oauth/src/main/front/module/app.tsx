@@ -15,11 +15,10 @@ class App extends React.Component<never, ApplicationState>{
     this.store.load()
   }
   post = (content: Post.Content) => {
-    const id = Store.generateId();
-    this.store.add({ content, id })
+    this.store.add(content)
   }
   deletePost = (id: Post.Id) => {
-    this.store.remove(id)
+    this.store.delete(id)
   }
   render() {
     return <div className="columns application">
