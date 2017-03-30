@@ -9,7 +9,7 @@ class App extends React.Component<never, ApplicationState>{
   state = { posts: [] as Post[] }
   store = new Store()
   componentDidMount() {
-    this.store.describe("reflesh", (posts) => {
+    this.store.subscribe("reflesh", (posts) => {
       this.setState({ posts })
     })
     this.store.load()

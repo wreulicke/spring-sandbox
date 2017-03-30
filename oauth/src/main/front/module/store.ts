@@ -12,7 +12,7 @@ type Events = {
 class PostStore {
   eventEmitter = new event.EventEmitter2()
   posts = [] as Post[]
-  describe<T extends keyof Events>(eventName: T, observer: (t: Events[T]) => void) {
+  subscribe<T extends keyof Events>(eventName: T, observer: (t: Events[T]) => void) {
     this.eventEmitter.addListener(eventName, observer)
   }
   load() {
