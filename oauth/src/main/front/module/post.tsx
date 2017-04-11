@@ -2,11 +2,11 @@ import * as React from "react";
 import * as Post from "./model/post"
 
 type PostViewProps = {
-  deletePost: (id: Post.Id) => void
+  deletePost: (post: Post) => void
 } & Post;
 class PostView extends React.Component<PostViewProps, never>{
   delete = () => {
-    this.props.deletePost(this.props.id)
+    this.props.deletePost(this.props)
   }
   render() {
     return <div className="card post">

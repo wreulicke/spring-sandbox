@@ -1,6 +1,7 @@
 type Post = {
-  id: number,
+  id?: number
   content: string
+  date: string
 };
 declare var post: Post;
 declare namespace Post {

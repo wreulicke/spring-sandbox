@@ -17,8 +17,8 @@ class App extends React.Component<never, ApplicationState>{
   post = (content: Post.Content) => {
     this.store.add(content)
   }
-  deletePost = (id: Post.Id) => {
-    this.store.delete(id)
+  deletePost = (post: Post) => {
+    this.store.delete(post)
   }
   render() {
     return <div className="columns application">
