@@ -1,1 +1,0 @@
-git ls-files --others --exclude-standard|xargs -i grep -H "" {}
