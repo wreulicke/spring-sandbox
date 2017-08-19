@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'spring-sandbox-oauth'
+rootProject.name = 'basic'
