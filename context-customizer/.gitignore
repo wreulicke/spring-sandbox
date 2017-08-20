@@ -1,0 +1,8 @@
+/.gradle/
+/build/
+/bin/
+
+node_modules
+coverage
+.idea
+db
