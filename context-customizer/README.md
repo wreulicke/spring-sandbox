@@ -4,14 +4,15 @@
 少し涼しくなって来たでしょうか。今ものすごくラーメンが食べたい齋藤です。
 
 この記事ではSpring Bootのテストを対象として
-[ContextCustomizer](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextCustomizer.html)を使ってテストを楽に書けるようにして見ます。
+[ContextCustomizer](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextCustomizer.html)を使ってテストを楽に書けるようにしてみます。
 
 ## 前提
 
-本記事では、[Retrofit2](http://square.github.io/retrofit/)を使ったテストを例に簡単にしてみます。
+本記事では、[Retrofit2](http://square.github.io/retrofit/)を使ったテストを例にやっていきます。
+使用したソースは[こちらのリポジトリ](https://github.com/Wreulicke/spring-sandbox/tree/e41b17b8a922cfef1b646d0728a39910263527bd)においています。
 
 ランダムポートで立ち上げたSpring Bootのサーバに対して
-[Retrofit2](http://square.github.io/retrofit/)を使いAPIのテストを書いてみます。
+[Retrofit2](http://square.github.io/retrofit/)を使いAPIのテストを書きます。
 
 なお、本記事では[AssertJ](http://joel-costigliola.github.io/assertj/)を使っています。
 
@@ -44,7 +45,7 @@ public class SampleController {
 ```
 
 ```java
-@Value
+@Value // lombokのアノテーション
 public class User {
     private final String name;
 }
@@ -186,14 +187,15 @@ public class UserEndpointTestOther extends TestBase {
 
 ## 早速ネタバラシです
 
-`ContextCustomizer`を実装した[`SpringBootTestContextCustomizer`](https://github.com/spring-projects/spring-boot/blob/138b96cf5f9536aaecdc8ebcc86cbe00a557b6ae/spring-boot-test/src/main/java/org/springframework/boot/test/context/SpringBootTestContextCustomizer.java)というクラスがspring-boot-testの中に存在します。
+`ContextCustomizer`を実装した`SpringBootTestContextCustomizer`というクラスが
+[spring-boot-testの中に存在](https://github.com/spring-projects/spring-boot/blob/138b96cf5f9536aaecdc8ebcc86cbe00a557b6ae/spring-boot-test/src/main/java/org/springframework/boot/test/context/SpringBootTestContextCustomizer.java)します。
 
 このクラスがTestRestTemplateをSpringのDIコンテナの中に登録しているおかげで
 テストクラスにおいて`@Autowired`を使ってTestRestTemplateのDIができるわけです。
 
 ## 実装の前にテストをこんな風にしたい、というのを見てみる
 
-と、その前にどんな風にテスト書きたいかなぁと考えて見たところ
+実装を書くその前にどんな風にテスト書きたいかなぁと考えて見たところ
 下みたいな感じで書けたら嬉しいですね。
 
 ```java
@@ -218,7 +220,7 @@ public class UserEndpointTest {
 
 ## ContextCustomizerを使ってテストを楽にしてみる
 
-ContextCustomizerを使ってテストを簡略しましたが
+ContextCustomizerを使って上記の形でテストを書けるようにしましたが
 少し長くなってしまったので、ここにザッとまとめておきます。
 
 * 登録したいBeanのFactoryクラスを作成する。
@@ -228,12 +230,12 @@ ContextCustomizerを使ってテストを簡略しましたが
 
 では実装してみます。
 
-実装は長くなるので部分部分を抽出して見ていきます。
+部分部分を抽出して見ていきます。
 以下のコードの大部分は先ほど紹介した`SpringBootTestContextCustomizer`のコードです。
 少し見やすさのために簡略化・省略しています。
 
 `SampleContextCustomizer`でbeanをBeanFactoryと共に登録し
-`TestRetrofitFactory`はSpringのEnviromentからポートなどを取り出して
+`TestRetrofitFactory`はSpringのEnviromentクラス等からポートなどを取り出して
 Retrofitオブジェクトを構築しています。
 
 ```java
@@ -314,6 +316,8 @@ ContextCustomizerFactoryのcreateContextCustomizerの引数からテストクラ
 ライブラリにしておくと簡単に使い回せそうですね！
 
 非常に強力な機能ですので、皆さん使ってみてはいかがかと思います。
+
+ソースは[こちらのリポジトリ](https://github.com/Wreulicke/spring-sandbox/tree/e41b17b8a922cfef1b646d0728a39910263527bd)においています。
 
 次は似たようなクラスのTestExecutionListenerで楽にしてみたいなぁとか思うわけですが。
 いつになるやら。。。
