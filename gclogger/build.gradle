@@ -1,18 +1,18 @@
 buildscript {
-	ext {
-		kotlinVersion = '1.1.51'
-		springBootVersion = '2.0.0.M6'
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-	}
+    ext {
+        kotlinVersion = '1.1.51'
+        springBootVersion = '2.0.0.M6'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
 }
 
 apply plugin: 'kotlin'
@@ -26,27 +26,27 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 compileKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 compileTestKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-webflux'
-	compile 'com.netflix.spectator:spectator-ext-gc:0.59.0'
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
-	compile "org.jetbrains.kotlin:kotlin-reflect"
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    compile 'com.netflix.spectator:spectator-ext-gc:0.59.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+    compile "org.jetbrains.kotlin:kotlin-reflect"
     compile "ch.qos.logback.contrib:logback-json-core:0.1.2"
     compile "ch.qos.logback.contrib:logback-json-classic:0.1.2"
     compile "ch.qos.logback.contrib:logback-jackson:0.1.2"
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	testCompile 'io.projectreactor:reactor-test'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'io.projectreactor:reactor-test'
 }
