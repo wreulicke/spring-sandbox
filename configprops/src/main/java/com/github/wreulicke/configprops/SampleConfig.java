@@ -2,6 +2,39 @@ package com.github.wreulicke.configprops;
 
 public class SampleConfig {
 	
+	private String name;
+	
+	private String test;
+	
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * @return the test
+	 */
+	public String getTest() {
+		return test;
+	}
+	
+	/**
+	 * @param test the test to set
+	 */
+	public void setTest(String test) {
+		this.test = test;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -45,40 +78,6 @@ public class SampleConfig {
 	@Override
 	public String toString() {
 		return "SampleConfig [name=" + name + ", test=" + test + "]";
-	}
-	
-	
-	private String name;
-	
-	private String test;
-	
-	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * @return the test
-	 */
-	public String getTest() {
-		return test;
-	}
-	
-	/**
-	 * @param test the test to set
-	 */
-	public void setTest(String test) {
-		this.test = test;
 	}
 	
 }

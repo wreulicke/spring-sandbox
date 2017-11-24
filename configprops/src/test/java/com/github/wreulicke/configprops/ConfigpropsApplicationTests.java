@@ -22,6 +22,17 @@ public class ConfigpropsApplicationTests {
 	@Qualifier("configFuga")
 	SampleConfig configFuga;
 	
+	@Autowired
+	SampleConfig defaultConfig;
+	
+	@Autowired
+	@Fuga
+	SampleConfig qualifierConfigHoge;
+	
+	@Autowired
+	@Hoge
+	SampleConfig qualifierConfigFuga;
+	
 	
 	@Test
 	public void test1() {
