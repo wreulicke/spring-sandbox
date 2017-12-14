@@ -333,6 +333,7 @@ class ServiceC {
 ## まとめ
 
 今回の記事では実際に動くコードは出しませんでしたが、宣言的トランザクションがネストしている場合にどうするべきなのだろうか、という話でした。
+実際に書いたコードは[こちら](https://github.com/wreulicke/spring-sandbox/blob/96634e3ba0df990eb57b2326ff9fb46936651113/transaction-manager/src/main/java/com/github/wreulicke/spring/transaction/UserController.java)に置いてあります。
 
 結論としてはメソッド2つ書くか
 少し明示的にトランザクションを管理するという形になりました。
