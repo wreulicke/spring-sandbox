@@ -1,11 +1,12 @@
-こんにちは、齋藤です。
+はい、こんにちは、齋藤です。
+どうしましょう。
 
 今日は久しぶりに Springです。
 
 今回の記事はSpringのトランザクションの管理方法について記事を書きます。
 
-大体は [Qiitaに書かれてある記事](
-https://qiita.com/NagaokaKenichi/items/a279857cc2d22a35d0dd)に大体のことは書かれていると思います。
+宣言的トランザクションについては、[Transaction Management](https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/transaction.html)や
+[Qiitaに書かれてある記事](https://qiita.com/NagaokaKenichi/items/a279857cc2d22a35d0dd) に大体のことは書かれていると思います。
 
 宣言的トランザクションを使っている場合にこういう場合はどうしたら良いんだろう？というのを解決する方法について、ブログを書いていきます。
 
@@ -338,6 +339,12 @@ class ServiceC {
 
 どちらにせよ、あまり良い手法ではないような気はしますが
 やろうとしている内容の性質上、仕方ないのかなとも思いました。
+
+また、今回のサンプルで示した書き方だと 外側でロールバックした場合 ( 記事では ServiceCの処理中 )、
+ネストしたトランザクションがロールバックしません。 (記事中では ServiceBの処理 ) 
+外側でロールバックした時にネストしている方もロールバックしたい場合はNestedとかを使うのかな？
+`suke_masa` さんの[記事](http://masatoshitada.hatenadiary.jp/entry/2015/12/05/135825)を見ながら
+この記事としては終わりにしておきます。
 
 いかがだったでしょうか。
 こんな書き方もあるよ、というのがある方は
