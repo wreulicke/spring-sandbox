@@ -1,7 +1,5 @@
 package com.github.wreulicke.spring.transaction;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -19,7 +17,7 @@ public class UserController {
 	private PlatformTransactionManager transactionManager;
 	
 	@Autowired
-	EntityManager entityManager;
+	UserService userService;
 	
 	
 	@Transactional
@@ -30,6 +28,9 @@ public class UserController {
 			template.execute(new TransactionCallbackWithoutResult() {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					User user = new User();
+					user.setName("testA");
+					userService.create(user);
 					throw new RuntimeException();
 				}
 			});
@@ -37,8 +38,8 @@ public class UserController {
 		}
 		
 		User user = new User();
-		user.setName("test");
-		entityManager.persist(user);
+		user.setName("testB");
+		userService.create(user);
 		return user;
 	}
 	
@@ -53,6 +54,8 @@ public class UserController {
 			template.execute(new TransactionCallbackWithoutResult() {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					User user = new User();
+					user.setName("testC");
 					throw new RuntimeException();
 				}
 			});
@@ -60,8 +63,8 @@ public class UserController {
 		}
 		
 		User user = new User();
-		user.setName("test");
-		entityManager.persist(user);
+		user.setName("testD");
+		userService.create(user);
 		return user;
 	}
 	
