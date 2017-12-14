@@ -28,7 +28,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void testCreateNew() {
-		User user = controller.createNewTransaction();
+		User user = controller.createInNewTransaction();
 		assertThat(user)
 			.isNotNull();
 		assertThat(user.getId())

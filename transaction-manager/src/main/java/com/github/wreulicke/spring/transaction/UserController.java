@@ -43,7 +43,7 @@ public class UserController {
 	}
 	
 	@Transactional
-	public User createNewTransaction() {
+	public User createInNewTransaction() {
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setName("SomeTxName");
 		TransactionTemplate template = new TransactionTemplate(transactionManager, def);
