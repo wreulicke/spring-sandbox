@@ -6,7 +6,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -21,7 +20,7 @@ public class UserController {
 	
 	
 	@Transactional
-	public User create() {
+	public User create1() {
 		TransactionTemplate template = new TransactionTemplate(transactionManager);
 		
 		try {
@@ -44,10 +43,8 @@ public class UserController {
 	}
 	
 	@Transactional
-	public User createInNewTransaction() {
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setName("SomeTxName");
-		TransactionTemplate template = new TransactionTemplate(transactionManager, def);
+	public User create2() {
+		TransactionTemplate template = new TransactionTemplate(transactionManager);
 		template.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 		
 		try {
@@ -56,6 +53,7 @@ public class UserController {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					User user = new User();
 					user.setName("testC");
+					userService.create(user);
 					throw new RuntimeException();
 				}
 			});
@@ -68,4 +66,25 @@ public class UserController {
 		return user;
 	}
 	
+	@Transactional
+	public User create3() {
+		User user1 = new User();
+		user1.setName("testE");
+		try {
+			userService.tryCreateInNewTransaction(user1);
+		} catch (Exception e) {
+		}
+		User user2 = new User();
+		user2.setName("testF");
+		userService.create(user2);
+		return user2;
+	}
+	
+	@Transactional
+	public User create4() {
+		User user1 = new User();
+		user1.setName("testG");
+		userService.createInNewTransaction(user1);
+		throw new RuntimeException();
+	}
 }
