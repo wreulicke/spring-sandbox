@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    // compile 'org.flywaydb:flyway-core'
+    testCompile 'com.h2database:h2'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    
+    compileOnly  'org.projectlombok:lombok:1.16.14'
+    testCompileOnly   'org.projectlombok:lombok:1.16.14'
+}
