@@ -29,4 +29,5 @@ buildNumber.properties
 
 out/
 bin/
+build/
 .gradle/
