@@ -9,7 +9,7 @@ WebRequestInterceptorを登録してWebMvcの設定を追加するだけです�
 以下のようなコードを用意します。
 
 preHandleでrequestが始まった時間を記録させておくことで
-afterCompletionで簡易的なスループットの計算が可能です。
+afterCompletionでレスポンスまでにかかった時間を記録することが可能です。
 
 ``` java
 @Slf4j
@@ -36,7 +36,7 @@ public class SampleInterceptor implements AsyncWebRequestInterceptor {
 			NativeWebRequest nativeWebRequest = (NativeWebRequest) request;
 			HttpServletRequest servletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 			HttpServletResponse servletResponse = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-			log.info("URI {}, status code: {}, throughput: {} (ns)",
+			log.info("URI {}, status code: {}, response time: {} (ns)",
 					servletRequest.getRequestURI(),
 					servletResponse.getStatus(),
 					Duration.between(dateTime, LocalDateTime.now()).toNanos());
@@ -72,10 +72,10 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 テストコードでAPIにアクセスしてみたところ以下のようなログが出力されました。
 
 ```java
-2018/01/16 16:17:32.458+0900 0a91fcd1-f99b-4b3b-b637-51448b1abde2 [http-nio-8080-exec-9] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, throughput: 2000000 (ns)
+2018/01/16 16:17:32.458+0900 0a91fcd1-f99b-4b3b-b637-51448b1abde2 [http-nio-8080-exec-9] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, response time: 2000000 (ns)
 2018/01/16 16:17:32.463+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.MyController:42 - test
 2018/01/16 16:17:32.464+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.MyController:49 - circuit is open.
-2018/01/16 16:17:32.467+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, throughput: 1000000 (ns)
+2018/01/16 16:17:32.467+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, response time: 1000000 (ns)
 ```
 
 また今回の例では、APIのコードは紹介していませんでしたが
