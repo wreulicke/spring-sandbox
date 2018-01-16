@@ -54,10 +54,10 @@ public class SampleInterceptor implements AsyncWebRequestInterceptor {
 
 上記実装で空の実装になっている部分に関してはドキュメントを参照してください。
 
-* https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/request/WebRequestInterceptor.html
-* https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/request/AsyncWebRequestInterceptor.html
+* [WebRequestInterceptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/request/WebRequestInterceptor.html)
+* [AsyncWebRequestInterceptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/request/AsyncWebRequestInterceptor.html)
 
-また、上記の WebRequestInterceptor を WebMvcConfigurerAdaptorのメソッドを経由して登録する必要があります。
+また、上記の WebRequestInterceptor を WebMvcConfigurerAdaptorのメソッドを経由して登録する必要があります。
 今回は以下のようなコードを用意しました。
 
 ``` java
@@ -86,8 +86,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
 実際に利用したコードは以下のリポジトリに配置してあります。
 
-https://github.com/wreulicke/spring-sandbox/tree/7422de530b0509041455450b1eddceedfd3b37c5/failsafe
+[サンプルコードはこちら。]https://github.com/wreulicke/spring-sandbox/tree/7422de530b0509041455450b1eddceedfd3b37c5/failsafe
 
 ## 参考
 
-* http://chronosdeveloper.hatenablog.com/entry/2014/12/15/013731
+* [SpringFrameworkのHandlerInterceptorで共通処理](http://chronosdeveloper.hatenablog.com/entry/2014/12/15/013731)
