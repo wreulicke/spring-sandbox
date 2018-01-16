@@ -13,7 +13,6 @@ preHandleでrequestが始まった時間を記録させておくことで
 afterCompletionで簡易的なスループットの計算が可能です。
 
 ``` java
-
 @Slf4j
 public class SampleInterceptor implements AsyncWebRequestInterceptor {
 	
