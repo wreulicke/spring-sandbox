@@ -71,6 +71,18 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 }
 ```
 
+テストコードでAPIにアクセスしてみたところ以下のようなログが出力されました。
+
+```java
+2018/01/16 16:17:32.458+0900 0a91fcd1-f99b-4b3b-b637-51448b1abde2 [http-nio-8080-exec-9] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, throughput: 2000000 (ns)
+2018/01/16 16:17:32.463+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.MyController:42 - test
+2018/01/16 16:17:32.464+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.MyController:49 - circuit is open.
+2018/01/16 16:17:32.467+0900 0bb216bb-c055-4aa6-a494-f59a88ac927a [http-nio-8080-exec-10] INFO  com.github.wreulicke.spring.SampleInterceptor:42 - URI /rxjava, status code: 500, throughput: 1000000 (ns)
+```
+
+また今回の例では、APIのコードは紹介していませんでしたが
+今回のサンプルでは、サーブレットの非同期処理を使ったAPIでテストをしています。
+
 ## まとめ
 
 必要になったので書きました。
