@@ -87,7 +87,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
 実際に利用したコードは以下のリポジトリに配置してあります。
 
-https://github.com/wreulicke/spring-sandbox/tree/c620c3d4e2a65e4f92dcb22034f2e07308e35f96/failsafe
+https://github.com/wreulicke/spring-sandbox/tree/7422de530b0509041455450b1eddceedfd3b37c5/failsafe
 
 ## 参考
 
