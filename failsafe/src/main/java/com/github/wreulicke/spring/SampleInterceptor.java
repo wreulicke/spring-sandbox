@@ -38,7 +38,7 @@ public class SampleInterceptor implements AsyncWebRequestInterceptor {
 			NativeWebRequest nativeWebRequest = (NativeWebRequest) request;
 			HttpServletRequest servletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 			HttpServletResponse servletResponse = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-			log.info("URI {}, status code: {}, throughput: {} (ns)",
+			log.info("URI {}, status code: {}, response time: {} (ns)",
 					servletRequest.getRequestURI(),
 					servletResponse.getStatus(),
 					Duration.between(dateTime, LocalDateTime.now()).toNanos());
