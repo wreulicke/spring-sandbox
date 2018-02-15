@@ -20,28 +20,32 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.25'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-	compile 'org.flywaydb:flyway-core'
+    compile 'org.flywaydb:flyway-core'
     
-	// failsafe
-	compile 'net.jodah:failsafe:1.0.5'
-	
-	// rxjava2
-	compile 'io.reactivex.rxjava2:rxjava:2.1.8'
+    // failsafe
+    compile 'net.jodah:failsafe:1.0.5'
+    
+    // rxjava2
+    compile 'io.reactivex.rxjava2:rxjava:2.1.8'
     compile 'io.jmnarloch:rxjava-spring-boot-starter:2.0.0'
     
-	// retrofit
-	compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.3.0'
-	compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: '2.3.0'
-	compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
-	compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-	
-	compile 'io.github.bmcstdio:rxjava-slf4j-mdc-hook:1.1.2'
+    // retrofit
+    compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.3.0'
+    compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: '2.3.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    // riptide
+    compile "org.zalando:riptide-core:2.6.0"
+    compile "org.zalando:riptide-failsafe:2.6.0"
+    
+    compile 'io.github.bmcstdio:rxjava-slf4j-mdc-hook:1.1.2'
     testCompile 'com.h2database:h2'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
