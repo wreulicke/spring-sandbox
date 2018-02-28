@@ -28,9 +28,13 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile "org.springframework.boot:spring-boot-starter-security"
+	compile "org.springframework.boot:spring-boot-starter-aop"
+	compile "org.springframework.boot:spring-boot-starter-security"
 	compile 'org.flywaydb:flyway-core'
+
 	runtime 'org.springframework.boot:spring-boot-devtools'
+
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	testCompile 'com.h2database:h2:1.4.196'
-
+	testCompile "org.assertj:assertj-core:3.9.0"
 }
