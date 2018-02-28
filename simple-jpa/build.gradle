@@ -33,6 +33,17 @@ repositories {
   mavenCentral()
 }
 
+jacoco {
+  toolVersion = "0.8.0"
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+    csv.enabled true
+  }
+}
+
 spotless {
   def headerFile = "/** " + project.file("../LICENSE.md").text + "*/"
 
