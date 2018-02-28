@@ -6,7 +6,8 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+		classpath 'com.diffplug.spotless:spotless-plugin-gradle:3.10.0'
 	}
 }
 
@@ -14,6 +15,7 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "org.springframework.boot"
+apply plugin: 'com.diffplug.gradle.spotless'
 
 group = "com.github.wreulicke"
 version = "0.0.1-SNAPSHOT"
@@ -23,6 +25,17 @@ repositories {
 	mavenCentral()
 }
 
+spotless {
+    def headerFile = "/** "+project.file('../LICENSE.md').text+"*/"
+
+    java {
+        licenseHeader headerFile, '(package|import) '
+        eclipseFormatFile project.file('eclipse-format-setting.xml')
+
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
 
 dependencies {
 	compile "org.springframework.boot:spring-boot-starter-actuator"
