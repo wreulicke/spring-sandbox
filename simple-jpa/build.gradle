@@ -3,12 +3,14 @@ buildscript {
     springBootVersion = "1.5.10.RELEASE"
   }
   repositories {
-    mavenCentral()
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
     classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
     classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
     classpath "de.thetaphi:forbiddenapis:2.4.1"
+    classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.1"
   }
 }
 
@@ -16,7 +18,7 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "checkstyle"
-apply plugin: "findbugs"
+apply plugin: "com.github.spotbugs"
 apply plugin: "pmd"
 apply plugin: "jacoco"
 apply plugin: "de.thetaphi.forbiddenapis"
@@ -68,6 +70,17 @@ forbiddenApisTest {
     'jdk-internal-' + project.sourceCompatibility
   ]
   ignoreFailures = false
+}
+
+spotbugs {
+  toolVersion = '3.1.2'
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
 }
 
 dependencies {
