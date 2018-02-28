@@ -94,6 +94,19 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
   }
 }
 
+pmd {
+  consoleOutput = true
+  toolVersion = '5.5.2'
+}
+pmdMain {
+  ruleSetFiles = project.files("pmd.xml")
+  ruleSets = []  
+}
+pmdTest {
+  ruleSetFiles = project.files("pmd.xml")
+  ruleSets = []  
+}
+
 dependencies {
   compile "org.springframework.boot:spring-boot-starter-actuator"
   compile "org.springframework.boot:spring-boot-starter-data-jpa"
