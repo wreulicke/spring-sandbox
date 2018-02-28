@@ -1,20 +1,23 @@
 buildscript {
-	ext {
-		springBootVersion = "1.5.10.RELEASE"
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+  ext {
+    springBootVersion = "1.5.10.RELEASE"
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
     classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
     classpath "de.thetaphi:forbiddenapis:2.4.1"
-	}
+  }
 }
 
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+apply plugin: "pmd"
 apply plugin: "jacoco"
 apply plugin: "de.thetaphi.forbiddenapis"
 apply plugin: "org.springframework.boot"
@@ -25,13 +28,13 @@ version = "0.0.1-SNAPSHOT"
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 spotless {
   def headerFile = "/** " + project.file("../LICENSE.md").text + "*/"
 
-    java {
+  java {
     licenseHeader headerFile, "(package|import)"
     eclipse().configFile project.file("eclipse-format-setting.xml")
     trimTrailingWhitespace()
@@ -40,12 +43,15 @@ spotless {
 
   format 'misc', {
     target '**/*.gradle'
-
+    
     indentWithSpaces(2) 
-        endWithNewline()
-    }
+    endWithNewline()
+  }
 }
 
+checkstyle {
+  configFile project.file("checkstyle.xml")
+}
 
 forbiddenApisMain {
   bundledSignatures += [
@@ -65,17 +71,17 @@ forbiddenApisTest {
 }
 
 dependencies {
-	compile "org.springframework.boot:spring-boot-starter-actuator"
-	compile "org.springframework.boot:spring-boot-starter-data-jpa"
-	compile "org.springframework.boot:spring-boot-starter-web"
-	compile "org.springframework.boot:spring-boot-starter-security"
-	compile "org.springframework.boot:spring-boot-starter-aop"
-	compile "org.springframework.boot:spring-boot-starter-security"
-	compile "org.flywaydb:flyway-core"
+  compile "org.springframework.boot:spring-boot-starter-actuator"
+  compile "org.springframework.boot:spring-boot-starter-data-jpa"
+  compile "org.springframework.boot:spring-boot-starter-web"
+  compile "org.springframework.boot:spring-boot-starter-security"
+  compile "org.springframework.boot:spring-boot-starter-aop"
+  compile "org.springframework.boot:spring-boot-starter-security"
+  compile "org.flywaydb:flyway-core"
 
-	runtime "org.springframework.boot:spring-boot-devtools"
+  runtime "org.springframework.boot:spring-boot-devtools"
 
-	testCompile "org.springframework.boot:spring-boot-starter-test"
-	testCompile "com.h2database:h2:1.4.196"
-	testCompile "org.assertj:assertj-core:3.9.0"
+  testCompile "org.springframework.boot:spring-boot-starter-test"
+  testCompile "com.h2database:h2:1.4.196"
+  testCompile "org.assertj:assertj-core:3.9.0"
 }
