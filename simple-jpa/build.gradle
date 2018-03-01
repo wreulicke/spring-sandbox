@@ -52,6 +52,7 @@ spotless {
     eclipse().configFile project.file("eclipse-format-setting.xml")
     trimTrailingWhitespace()
     endWithNewline()
+    removeUnusedImports()
   }
 
   format 'misc', {
