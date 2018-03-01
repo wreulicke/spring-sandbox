@@ -116,6 +116,8 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.flywaydb:flyway-core"
 
+  compileOnly "org.projectlombok:lombok:1.16.20"
+
   runtime "org.springframework.boot:spring-boot-devtools"
 
   testCompile "org.springframework.boot:spring-boot-starter-test"
