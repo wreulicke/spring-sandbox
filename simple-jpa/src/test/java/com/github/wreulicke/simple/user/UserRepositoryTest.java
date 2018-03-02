@@ -43,7 +43,7 @@ public class UserRepositoryTest {
   public void testSave() {
     User user = new User();
     User actual = repository.save(user);
-    assertThat(actual.getUsername()).isNotEmpty();
+    assertThat(actual.getId()).isNotNull();
   }
 
   @Test
