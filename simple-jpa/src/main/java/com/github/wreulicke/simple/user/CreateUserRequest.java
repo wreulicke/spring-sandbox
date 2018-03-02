@@ -23,28 +23,17 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Value;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+@Value
+public class CreateUserRequest {
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
+  @JsonProperty
+  private final String username;
 
-  @Column
-  private String username;
-
-  @Column
-  private String password;
+  @JsonProperty
+  private final String password;
 
 }

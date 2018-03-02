@@ -23,28 +23,30 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Optional;
 
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-  @Column
-  private String username;
+  private final UserRepository userRepository;
 
-  @Column
-  private String password;
+  private final UserAuthoritiesRepository userAuthoritiesRepository;
 
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<User> userOpt = userRepository.findByUsername(username);
+    return userOpt.flatMap(user -> userAuthoritiesRepository.findByUsername(user.getUsername())
+      .map(authorities -> new CustomUserDetails(user, authorities)))
+      .orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` is not found"));
+  }
 }

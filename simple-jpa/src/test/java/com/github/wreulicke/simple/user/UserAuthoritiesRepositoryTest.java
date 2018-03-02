@@ -23,28 +23,32 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import lombok.Data;
+import java.util.Collections;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-  @Column
-  private String username;
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class UserAuthoritiesRepositoryTest {
 
-  @Column
-  private String password;
 
+  @Autowired
+  UserAuthoritiesRepository repository;
+
+  @Test
+  public void testSave() {
+    UserAuthorities authorities = new UserAuthorities();
+    authorities.setUsername("test");
+    authorities.setAuthroties(Collections.singleton("ROLE_ADMIN"));
+    UserAuthorities actual = repository.save(authorities);
+    assertThat(actual).returns("test", UserAuthorities::getUsername)
+      .returns(Collections.singleton("ROLE_ADMIN"), UserAuthorities::getAuthroties);
+  }
 }

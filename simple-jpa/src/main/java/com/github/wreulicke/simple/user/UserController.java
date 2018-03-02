@@ -23,28 +23,31 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.RequiredArgsConstructor;
 
-import lombok.Data;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+@RestController
+@RequestMapping("/users")
+@RequiredArgsConstructor
+public class UserController {
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
+  private final UserRepository repository;
 
-  @Column
-  private String username;
+  private final PasswordEncoder encoder;
 
-  @Column
-  private String password;
+  @PostMapping
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+  public User create(@RequestBody CreateUserRequest request) {
+    User user = new User();
+    user.setUsername(request.getUsername());
+    user.setPassword(encoder.encode(request.getPassword()));
+    return repository.save(user);
+  }
 
 }

@@ -40,10 +40,20 @@ public class UserRepositoryTest {
   UserRepository repository;
 
   @Test
-  public void test() {
+  public void testSave() {
     User user = new User();
     User actual = repository.save(user);
-    assertThat(actual.getUsername()).isNotEmpty();
+    assertThat(actual.getId()).isNotNull();
+  }
+
+  @Test
+  public void testFindByUsername() {
+    User user = new User();
+    user.setUsername("test");
+    repository.save(user);
+    assertThat(repository.findByUsername("test")).isNotEmpty()
+      .map(User::getUsername)
+      .hasValue("test");
   }
 
 }

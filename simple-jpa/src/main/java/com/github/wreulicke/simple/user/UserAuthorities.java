@@ -23,9 +23,11 @@
  */
 package com.github.wreulicke.simple.user;
 
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -33,18 +35,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "users")
-public class User {
+@Table(name = "user_authorities")
+public class UserAuthorities {
 
   @Id
-  @GeneratedValue
   @Column
-  Long id;
+  String username;
+
 
   @Column
-  private String username;
-
-  @Column
-  private String password;
+  @Convert(converter = AuthoritiesAttributeConverter.class)
+  Set<String> authroties;
 
 }

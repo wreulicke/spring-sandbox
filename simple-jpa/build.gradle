@@ -52,6 +52,7 @@ spotless {
     eclipse().configFile project.file("eclipse-format-setting.xml")
     trimTrailingWhitespace()
     endWithNewline()
+    removeUnusedImports()
   }
 
   format 'misc', {
@@ -115,6 +116,8 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-aop"
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.flywaydb:flyway-core"
+
+  compileOnly "org.projectlombok:lombok:1.16.20"
 
   runtime "org.springframework.boot:spring-boot-devtools"
 

@@ -23,28 +23,39 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Set;
 
-import lombok.Data;
+import javax.persistence.AttributeConverter;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
+public class AuthoritiesAttributeConverter implements AttributeConverter<Set<String>, String> {
 
-  @Column
-  private String username;
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Column
-  private String password;
+  private static final JavaType clazz = objectMapper.getTypeFactory()
+    .constructCollectionType(Set.class, objectMapper.getTypeFactory()
+      .constructType(String.class));
 
+  @Override
+  public String convertToDatabaseColumn(Set<String> attribute) {
+    try {
+      return objectMapper.writeValueAsString(attribute);
+    } catch (JsonProcessingException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  @Override
+  public Set<String> convertToEntityAttribute(String dbData) {
+    try {
+      return objectMapper.readValue(dbData, clazz);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
 }

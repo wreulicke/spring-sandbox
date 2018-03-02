@@ -23,28 +23,11 @@
  */
 package com.github.wreulicke.simple.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Optional;
 
-import lombok.Data;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Entity
-@Data
-@Table(name = "users")
-public class User {
+public interface UserAuthoritiesRepository extends JpaRepository<UserAuthorities, String> {
 
-  @Id
-  @GeneratedValue
-  @Column
-  Long id;
-
-  @Column
-  private String username;
-
-  @Column
-  private String password;
-
+  Optional<UserAuthorities> findByUsername(String username);
 }
