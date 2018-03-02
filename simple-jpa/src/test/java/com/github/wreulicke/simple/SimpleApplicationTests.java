@@ -23,18 +23,48 @@
  */
 package com.github.wreulicke.simple;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.nio.charset.StandardCharsets;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.wreulicke.simple.user.CreateUserRequest;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SimpleApplicationTests {
 
+  @Autowired
+  TestRestTemplate template;
+
+  @Autowired
+  ObjectMapper objectMapper;
+
+
   @Test
-  public void contextLoads() {
+  public void createUser() throws JsonProcessingException {
+    HttpHeaders headers = new HttpHeaders();
+    byte[] encoded = java.util.Base64.getEncoder()
+      .encode("admin:admin".getBytes(StandardCharsets.UTF_8));
+    headers.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded, StandardCharsets.UTF_8));
+    CreateUserRequest request = new CreateUserRequest("test", "test");
+    HttpEntity<CreateUserRequest> entity = new HttpEntity<>(request, headers);
 
+    ResponseEntity<String> responseEntity = template.postForEntity("/users", entity, String.class);
+
+    assertThat(responseEntity).returns(HttpStatus.OK, ResponseEntity::getStatusCode);
   }
-
 }
