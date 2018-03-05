@@ -115,7 +115,7 @@ def defaultEncoding = 'UTF-8'
 
 tasks.withType(AbstractCompile).each {
   it.options.encoding = defaultEncoding
-  options.compilerArgs << '-parameter'
+  it.options.compilerArgs << '-parameter'
 }
 
 dependencies {
