@@ -25,14 +25,18 @@ package com.github.wreulicke.simple.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.github.wreulicke.simple.TestDatabaseConfiguration;
+
 @RunWith(SpringRunner.class)
+@Import(TestDatabaseConfiguration.class)
 @DataJpaTest
 public class UserRepositoryTest {
 
@@ -42,6 +46,8 @@ public class UserRepositoryTest {
   @Test
   public void testSave() {
     User user = new User();
+    user.setUsername("test");
+    user.setPassword("test");
     User actual = repository.save(user);
     assertThat(actual.getId()).isNotNull();
   }
@@ -50,10 +56,40 @@ public class UserRepositoryTest {
   public void testFindByUsername() {
     User user = new User();
     user.setUsername("test");
+    user.setPassword("test");
     repository.save(user);
     assertThat(repository.findByUsername("test")).isNotEmpty()
       .map(User::getUsername)
       .hasValue("test");
   }
+
+
+  @Test
+  public void testUpdate() {
+    User user = new User();
+    user.setUsername("test");
+    user.setPassword("test");
+    User actual = repository.save(user);
+
+    actual.setPassword("other");
+
+    repository.save(actual);
+    assertThat(actual.getPassword()).isEqualTo("other");
+  }
+
+
+  @Test
+  public void testDelete() {
+    User user = new User();
+    user.setUsername("test");
+    user.setPassword("test");
+    user = repository.save(user);
+
+    repository.delete(user);
+
+    assertThat(repository.findOne(user.getId())).isNull();
+    assertThat(repository.findByUsername(user.getUsername())).isEmpty();
+  }
+
 
 }

@@ -23,10 +23,22 @@
  */
 package com.github.wreulicke.simple.user;
 
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -41,13 +54,74 @@ public class UserController {
 
   private final PasswordEncoder encoder;
 
-  @PostMapping
-  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public User create(@RequestBody CreateUserRequest request) {
+  private final PlatformTransactionManager transactionManager;
+
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @Transactional
+  public ResponseEntity<?> create(@RequestBody CreateUserRequest request) {
     User user = new User();
     user.setUsername(request.getUsername());
     user.setPassword(encoder.encode(request.getPassword()));
-    return repository.save(user);
+
+    try {
+      return new TransactionTemplate(transactionManager).execute(status -> ResponseEntity.ok(new UserResponse(repository.save(user))));
+    } catch (DataIntegrityViolationException e) {
+      return ResponseEntity.status(HttpStatus.CONFLICT)
+        .build();
+    }
+  }
+
+
+  @DeleteMapping("/{username}")
+  @Transactional
+  public ResponseEntity<?> delete(@PathVariable("username") String username) {
+    Optional<User> userOpt = repository.findByUsername(username);
+    if (userOpt.isPresent() == false) {
+      return ResponseEntity.notFound()
+        .build();
+    }
+
+    User user = userOpt.get();
+    repository.delete(user);
+    return ResponseEntity.ok(new UserResponse(user));
+  }
+
+
+  @PostMapping(path = "/{username}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> update(@PathVariable("username") String username, @RequestBody UpdateUserRequest request) {
+    Optional<User> userOpt = repository.findByUsername(username);
+    if (userOpt.isPresent() == false) {
+      return ResponseEntity.notFound()
+        .build();
+    }
+
+    User user = userOpt.get();
+
+    try {
+      new TransactionTemplate(transactionManager).execute(status -> {
+        request.update(user, encoder);
+        return repository.save(user);
+      });
+    } catch (DataIntegrityViolationException e) {
+      return ResponseEntity.status(HttpStatus.CONFLICT)
+        .build();
+    }
+
+    return ResponseEntity.ok(new UserResponse(user));
+  }
+
+
+  @GetMapping(path = "/{username}")
+  @Transactional
+  public ResponseEntity<?> get(@PathVariable("username") String username) {
+    Optional<User> userOpt = repository.findByUsername(username);
+    if (userOpt.isPresent() == false) {
+      return ResponseEntity.notFound()
+        .build();
+    }
+
+    User user = userOpt.get();
+    return ResponseEntity.ok(new UserResponse(user));
   }
 
 }
