@@ -111,7 +111,7 @@ def defaultEncoding = 'UTF-8'
 
 tasks.withType(AbstractCompile).each {
   it.options.encoding = defaultEncoding
-  it.options.compilerArgs << '-parameter'
+  it.options.compilerArgs << '-parameters'
 }
 
 dependencies {
@@ -137,5 +137,8 @@ dependencies {
   testCompile "org.springframework.boot:spring-boot-starter-test"
   testCompile "org.springframework.security:spring-security-test"
   compile "com.h2database:h2:1.4.196"
+
   testCompile "org.assertj:assertj-core:3.9.0"
+  testCompile "org.mockito:mockito-core:2.15.0"
+
 }
