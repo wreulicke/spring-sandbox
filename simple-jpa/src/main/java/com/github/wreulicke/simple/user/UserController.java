@@ -85,7 +85,7 @@ public class UserController {
   @Transactional
   public ResponseEntity<?> delete(@PathVariable("username") String username) {
     Optional<User> userOpt = userRepository.findByUsername(username);
-    if (userOpt.isPresent() == false) {
+    if (!userOpt.isPresent()) {
       return ResponseEntity.notFound()
         .build();
     }
@@ -101,7 +101,7 @@ public class UserController {
   @PostMapping(path = "/{username}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> update(@PathVariable("username") String username, @RequestBody UpdateUserRequest request) {
     Optional<User> userOpt = userRepository.findByUsername(username);
-    if (userOpt.isPresent() == false) {
+    if (!userOpt.isPresent()) {
       return ResponseEntity.notFound()
         .build();
     }
@@ -140,7 +140,7 @@ public class UserController {
   @Transactional
   public ResponseEntity<?> get(@PathVariable("username") String username) {
     Optional<User> userOpt = userRepository.findByUsername(username);
-    if (userOpt.isPresent() == false) {
+    if (!userOpt.isPresent()) {
       return ResponseEntity.notFound()
         .build();
     }
