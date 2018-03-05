@@ -23,6 +23,9 @@
  */
 package com.github.wreulicke.simple.user;
 
+import java.util.Collections;
+import java.util.Set;
+
 import lombok.Getter;
 
 @Getter
@@ -30,8 +33,15 @@ public class UserResponse {
 
   private final String username;
 
-  UserResponse(User user) {
+  private final Set<String> authorities;
+
+  UserResponse(User user, UserAuthorities userAuthorities) {
     username = user.getUsername();
+    if (userAuthorities != null && userAuthorities.getAuthorities() != null) {
+      authorities = userAuthorities.getAuthorities();
+    } else {
+      authorities = Collections.emptySet();
+    }
   }
 
 }
