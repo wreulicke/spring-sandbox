@@ -45,7 +45,7 @@ public class CustomUserDetails implements UserDetails {
   CustomUserDetails(User user, UserAuthorities authorities) {
     this.username = user.getUsername();
     this.password = user.getPassword();
-    this.authorities = authorities.getAuthroties()
+    this.authorities = authorities.getAuthorities()
       .stream()
       .map(SimpleGrantedAuthority::new)
       .collect(Collectors.toList());
