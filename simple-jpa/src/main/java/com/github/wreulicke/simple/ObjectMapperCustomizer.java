@@ -37,8 +37,7 @@ public class ObjectMapperCustomizer implements Jackson2ObjectMapperBuilderCustom
 
   @Override
   public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-    jacksonObjectMapperBuilder
-        .modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
+    jacksonObjectMapperBuilder.modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
   }
 
 }

@@ -39,7 +39,8 @@ public class UserResponse {
     username = user.getUsername();
     if (userAuthorities != null && userAuthorities.getAuthorities() != null) {
       authorities = userAuthorities.getAuthorities();
-    } else {
+    }
+    else {
       authorities = Collections.emptySet();
     }
   }
