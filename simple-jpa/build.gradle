@@ -114,14 +114,20 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-web"
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.springframework.boot:spring-boot-starter-aop"
-  compile "org.springframework.boot:spring-boot-starter-security"
+
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+
   compile "org.flywaydb:flyway-core"
 
   compileOnly "org.projectlombok:lombok:1.16.20"
 
   runtime "org.springframework.boot:spring-boot-devtools"
+  runtime "mysql:mysql-connector-java"
+
+  testCompile "com.wix:wix-embedded-mysql:4.1.0"
 
   testCompile "org.springframework.boot:spring-boot-starter-test"
-  testCompile "com.h2database:h2:1.4.196"
+  testCompile "org.springframework.security:spring-security-test"
+  compile "com.h2database:h2:1.4.196"
   testCompile "org.assertj:assertj-core:3.9.0"
 }
