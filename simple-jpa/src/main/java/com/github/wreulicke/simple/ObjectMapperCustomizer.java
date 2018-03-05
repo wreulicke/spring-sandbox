@@ -27,14 +27,18 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 @Configuration
 public class ObjectMapperCustomizer implements Jackson2ObjectMapperBuilderCustomizer {
 
   @Override
   public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-    jacksonObjectMapperBuilder.modules(new Jdk8Module());
+    jacksonObjectMapperBuilder
+        .modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
   }
 
 }
