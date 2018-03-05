@@ -29,12 +29,16 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.github.wreulicke.simple.TestDatabaseConfiguration;
+
 @RunWith(SpringRunner.class)
+@Import(TestDatabaseConfiguration.class)
 @DataJpaTest
 public class UserAuthoritiesRepositoryTest {
 
@@ -46,9 +50,9 @@ public class UserAuthoritiesRepositoryTest {
   public void testSave() {
     UserAuthorities authorities = new UserAuthorities();
     authorities.setUsername("test");
-    authorities.setAuthroties(Collections.singleton("ROLE_ADMIN"));
+    authorities.setAuthorities(Collections.singleton("ROLE_ADMIN"));
     UserAuthorities actual = repository.save(authorities);
     assertThat(actual).returns("test", UserAuthorities::getUsername)
-      .returns(Collections.singleton("ROLE_ADMIN"), UserAuthorities::getAuthroties);
+      .returns(Collections.singleton("ROLE_ADMIN"), UserAuthorities::getAuthorities);
   }
 }

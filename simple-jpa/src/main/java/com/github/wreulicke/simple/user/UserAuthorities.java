@@ -45,6 +45,6 @@ public class UserAuthorities {
 
   @Column
   @Convert(converter = AuthoritiesAttributeConverter.class)
-  Set<String> authroties;
+  Set<String> authorities;
 
 }

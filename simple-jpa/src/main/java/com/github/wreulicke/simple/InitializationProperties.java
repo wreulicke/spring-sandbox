@@ -25,9 +25,6 @@ package com.github.wreulicke.simple;
 
 import java.util.Collections;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +35,9 @@ import com.github.wreulicke.simple.user.User;
 import com.github.wreulicke.simple.user.UserAuthorities;
 import com.github.wreulicke.simple.user.UserAuthoritiesRepository;
 import com.github.wreulicke.simple.user.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,13 +57,18 @@ public class InitializationProperties implements InitializingBean {
   @Transactional
   public void afterPropertiesSet() {
     if (initAdmin) {
+      if (userRepository.findByUsername("admin")
+        .isPresent()) {
+        return;
+      }
+
       User user = new User();
       user.setUsername("admin");
       user.setPassword(encoder.encode("admin"));
       User registered = userRepository.save(user);
       UserAuthorities authorities = new UserAuthorities();
       authorities.setUsername(user.getUsername());
-      authorities.setAuthroties(Collections.singleton("ROLE_ADMIN"));
+      authorities.setAuthorities(Collections.singleton("ROLE_ADMIN"));
       userAuthoritiesRepository.save(authorities);
 
       log.info("{}", registered);
