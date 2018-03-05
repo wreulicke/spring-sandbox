@@ -23,17 +23,52 @@
  */
 package com.github.wreulicke.simple.user;
 
+import java.util.Collections;
+import java.util.Set;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 import lombok.Value;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Value
+
+@ToString(exclude = "password")
+@EqualsAndHashCode
+@Getter
 public class CreateUserRequest {
 
-  @JsonProperty
+  @NonNull
+  @NotEmpty
   private final String username;
-
-  @JsonProperty
+  
+  @NonNull
+  @NotEmpty
   private final String password;
+  
+  @NonNull
+  @Size(min = 1)
+  private final Set<String> authorities;
+  
+  public CreateUserRequest(@NonNull String username, @NonNull String password) {
+    this.username = username;
+    this.password = password;
+    this.authorities = Collections.singleton("USER");
+  }
+  
+  @JsonCreator(mode = JsonCreator.Mode.DEFAULT)
+  public CreateUserRequest(@NonNull String username, @NonNull String password, @NonNull Set<String> authorities) {
+    this.username = username;
+    this.password = password;
+    this.authorities = authorities;
+  }
 
 }

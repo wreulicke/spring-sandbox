@@ -144,10 +144,8 @@ public class UserControllerTest {
         .content(mapper.writeValueAsString(updateUserRequest)))
         .andExpect(status().isConflict());
     } finally {
-      mvc.perform(delete("/users/{username}", "test"))
-        .andExpect(status().isOk());
-      mvc.perform(delete("/users/{username}", "test2"))
-        .andExpect(status().isOk());
+      mvc.perform(delete("/users/{username}", "test"));
+      mvc.perform(delete("/users/{username}", "test2"));
     }
   }
 }

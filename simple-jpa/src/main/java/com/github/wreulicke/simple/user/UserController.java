@@ -23,9 +23,8 @@
  */
 package com.github.wreulicke.simple.user;
 
+import java.util.Collections;
 import java.util.Optional;
-
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -44,27 +43,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/users")
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserRepository repository;
+  private final UserRepository userRepository;
+
+  private final UserAuthoritiesRepository userAuthoritiesRepository;
 
   private final PasswordEncoder encoder;
 
   private final PlatformTransactionManager transactionManager;
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  @Transactional
   public ResponseEntity<?> create(@RequestBody CreateUserRequest request) {
     User user = new User();
     user.setUsername(request.getUsername());
     user.setPassword(encoder.encode(request.getPassword()));
 
     try {
-      return new TransactionTemplate(transactionManager).execute(status -> ResponseEntity.ok(new UserResponse(repository.save(user))));
+      return new TransactionTemplate(transactionManager).execute(status -> {
+        userRepository.save(user);
+        UserAuthorities userAuthorities = new UserAuthorities();
+        userAuthorities.setUsername(user.getUsername());
+        userAuthorities.setAuthorities(request.getAuthorities());
+        userAuthoritiesRepository.save(userAuthorities);
+        return ResponseEntity.ok(new UserResponse(user, userAuthorities));
+      });
     } catch (DataIntegrityViolationException e) {
       return ResponseEntity.status(HttpStatus.CONFLICT)
         .build();
@@ -75,21 +84,23 @@ public class UserController {
   @DeleteMapping("/{username}")
   @Transactional
   public ResponseEntity<?> delete(@PathVariable("username") String username) {
-    Optional<User> userOpt = repository.findByUsername(username);
+    Optional<User> userOpt = userRepository.findByUsername(username);
     if (userOpt.isPresent() == false) {
       return ResponseEntity.notFound()
         .build();
     }
 
     User user = userOpt.get();
-    repository.delete(user);
-    return ResponseEntity.ok(new UserResponse(user));
+    userRepository.delete(user);
+    UserAuthorities userAuthorities = userAuthoritiesRepository.findByUsername(username)
+      .orElse(null);
+    return ResponseEntity.ok(new UserResponse(user, userAuthorities));
   }
 
 
   @PostMapping(path = "/{username}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> update(@PathVariable("username") String username, @RequestBody UpdateUserRequest request) {
-    Optional<User> userOpt = repository.findByUsername(username);
+    Optional<User> userOpt = userRepository.findByUsername(username);
     if (userOpt.isPresent() == false) {
       return ResponseEntity.notFound()
         .build();
@@ -99,29 +110,45 @@ public class UserController {
 
     try {
       new TransactionTemplate(transactionManager).execute(status -> {
-        request.update(user, encoder);
-        return repository.save(user);
+        // TODO: イケテナイ
+        // 何がイケテナイかというと
+        // userAuthoritiesが存在しない場合にUpdate時に勝手に作られてしまう。
+        // デフォルトは"USER"なのに対して、ここでは空にしている。
+        // １個のEntityの方がよかったかもね
+        UserAuthorities userAuthorities = userAuthoritiesRepository.findByUsername(user.getUsername())
+          .orElseGet(() -> {
+            UserAuthorities authorities = new UserAuthorities();
+            authorities.setUsername(user.getUsername());
+            authorities.setAuthorities(Collections.emptySet());
+            return userAuthoritiesRepository.save(authorities);
+          });
+        request.update(user, userAuthorities, encoder);
+        return userRepository.save(user);
       });
     } catch (DataIntegrityViolationException e) {
       return ResponseEntity.status(HttpStatus.CONFLICT)
         .build();
     }
 
-    return ResponseEntity.ok(new UserResponse(user));
+    UserAuthorities userAuthorities = userAuthoritiesRepository.findByUsername(username)
+      .orElse(null);
+    return ResponseEntity.ok(new UserResponse(user, userAuthorities));
   }
 
 
   @GetMapping(path = "/{username}")
   @Transactional
   public ResponseEntity<?> get(@PathVariable("username") String username) {
-    Optional<User> userOpt = repository.findByUsername(username);
+    Optional<User> userOpt = userRepository.findByUsername(username);
     if (userOpt.isPresent() == false) {
       return ResponseEntity.notFound()
         .build();
     }
 
     User user = userOpt.get();
-    return ResponseEntity.ok(new UserResponse(user));
+    UserAuthorities userAuthorities = userAuthoritiesRepository.findByUsername(username)
+      .orElse(null);
+    return ResponseEntity.ok(new UserResponse(user, userAuthorities));
   }
 
 }

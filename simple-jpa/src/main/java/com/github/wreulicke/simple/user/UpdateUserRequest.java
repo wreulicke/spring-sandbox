@@ -24,20 +24,45 @@
 package com.github.wreulicke.simple.user;
 
 import java.util.Optional;
-
-import lombok.Value;
+import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Value
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
+
+@ToString(exclude = "password")
+@EqualsAndHashCode
+@Getter
 public class UpdateUserRequest {
 
   private final Optional<String> username;
 
   private final Optional<String> password;
 
-  public void update(User user, PasswordEncoder encoder) {
+  private final Optional<Set<String>> authorities;
+
+  public UpdateUserRequest(@NonNull Optional<String> username, @NonNull Optional<String> password) {
+    this.username = username;
+    this.password = password;
+    this.authorities = Optional.empty();
+  }
+
+  @JsonCreator
+  public UpdateUserRequest(@NonNull Optional<String> username, @NonNull Optional<String> password, @NonNull Optional<Set<String>> authorities) {
+    this.username = username;
+    this.password = password;
+    this.authorities = authorities;
+  }
+
+
+  public void update(User user, UserAuthorities userAuthorities, PasswordEncoder encoder) {
     username.ifPresent(user::setUsername);
     password.ifPresent(pass -> user.setPassword(encoder.encode(pass)));
+    authorities.ifPresent(userAuthorities::setAuthorities);
   }
 }
