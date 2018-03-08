@@ -24,6 +24,7 @@
 package com.github.wreulicke.simple.user;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.constraints.Size;
@@ -61,11 +62,11 @@ public class CreateUserRequest {
     this.authorities = Collections.singleton("USER");
   }
 
-  @JsonCreator(mode = JsonCreator.Mode.DEFAULT)
-  public CreateUserRequest(@NonNull String username, @NonNull String password, @NonNull Set<String> authorities) {
+  @JsonCreator
+  public CreateUserRequest(@NonNull String username, @NonNull String password, Optional<Set<String>> authorities) {
     this.username = username;
     this.password = password;
-    this.authorities = authorities;
+    this.authorities = authorities.orElse(Collections.singleton("USER"));
   }
 
 }

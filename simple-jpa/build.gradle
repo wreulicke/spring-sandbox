@@ -124,6 +124,7 @@ dependencies {
   compile "com.fasterxml.jackson.module:jackson-module-parameter-names"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+  compile "org.zalando:logbook-spring-boot-starter:1.6.0"
 
   compile "org.flywaydb:flyway-core"
 
