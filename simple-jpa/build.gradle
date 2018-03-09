@@ -114,6 +114,13 @@ tasks.withType(AbstractCompile).each {
   it.options.compilerArgs << '-parameters'
 }
 
+
+bootRun {
+  if (project.hasProperty('args')) {
+    args project.args.split('\\s+')
+  }
+}
+
 dependencies {
   compile "org.springframework.boot:spring-boot-starter-actuator"
   compile "org.springframework.boot:spring-boot-starter-data-jpa"
@@ -125,6 +132,10 @@ dependencies {
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
   compile "org.zalando:logbook-spring-boot-starter:1.6.0"
+
+  compile "io.micrometer:micrometer-spring-legacy:1.0.1"
+
+  compile "io.micrometer:micrometer-registry-prometheus:1.0.1"
 
   compile "org.flywaydb:flyway-core"
 
