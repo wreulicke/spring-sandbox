@@ -126,6 +126,10 @@ dependencies {
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
   compile "org.zalando:logbook-spring-boot-starter:1.6.0"
 
+  compile "io.micrometer:micrometer-spring-legacy:1.0.1"
+
+  compile group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.0.1'
+
   compile "org.flywaydb:flyway-core"
 
   compileOnly "org.projectlombok:lombok:1.16.20"
