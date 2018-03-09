@@ -128,6 +128,8 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.springframework.boot:spring-boot-starter-aop"
 
+  compile "com.zaxxer:HikariCP:2.7.8"
+  
   compile "com.fasterxml.jackson.module:jackson-module-parameter-names"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
