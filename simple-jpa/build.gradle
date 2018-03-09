@@ -135,7 +135,7 @@ dependencies {
 
   compile "io.micrometer:micrometer-spring-legacy:1.0.1"
 
-  compile group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.0.1'
+  compile "io.micrometer:micrometer-registry-prometheus:1.0.1"
 
   compile "org.flywaydb:flyway-core"
 
