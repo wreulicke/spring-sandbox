@@ -29,6 +29,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductStockRepository extends JpaRepository<ProductStock, Long> {
 
-  Optional<ProductStock> findById(Long id);
+  default Optional<ProductStock> findById(Long id) {
+    return Optional.ofNullable(this.findOne(id));
+  }
 
 }
