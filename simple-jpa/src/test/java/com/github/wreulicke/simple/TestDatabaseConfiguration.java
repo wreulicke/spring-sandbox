@@ -32,6 +32,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,9 @@ import com.wix.mysql.config.MysqldConfig;
 
 @Configuration
 @ImportAutoConfiguration
-@AutoConfigureBefore(HibernateJpaAutoConfiguration.class)
+@AutoConfigureBefore({
+  HibernateJpaAutoConfiguration.class, FlywayAutoConfiguration.class
+})
 public class TestDatabaseConfiguration {
 
   @Bean(destroyMethod = "stop")

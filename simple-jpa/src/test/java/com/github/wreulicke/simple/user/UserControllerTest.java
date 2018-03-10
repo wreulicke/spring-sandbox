@@ -43,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wreulicke.simple.test.ControllerTest;
+import com.github.wreulicke.simple.test.WithAdmin;
 
 @ControllerTest
 @RunWith(SpringRunner.class)
@@ -56,7 +57,7 @@ public class UserControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testCreate() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +69,7 @@ public class UserControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testDelete() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +88,7 @@ public class UserControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testUpdate() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +113,7 @@ public class UserControllerTest {
 
   @Test
   // JPA取り扱い難しい。トランザクション境界の話があるので、ITでやる。あとh2で動かねぇ
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testConflictedUpdate() throws Exception {
     try {
       CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
