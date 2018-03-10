@@ -28,14 +28,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.github.wreulicke.simple.TestDatabaseConfiguration;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({
+  ElementType.TYPE, ElementType.METHOD
+})
 @WithMockUser(roles = "ADMIN")
 public @interface WithAdmin {
 }
