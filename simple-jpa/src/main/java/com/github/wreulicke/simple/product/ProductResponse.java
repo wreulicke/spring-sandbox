@@ -32,16 +32,20 @@ import lombok.ToString;
 @ToString
 public class ProductResponse {
 
+  private Long id;
+
   private String description;
 
   private Optional<Long> count;
 
   public ProductResponse(Product product) {
+    id = product.getId();
     description = product.getDescription();
     count = Optional.empty();
   }
 
   public ProductResponse(Product product, ProductStock stock) {
+    id = product.getId();
     description = product.getDescription();
     count = Optional.of(stock.getCount());
   }
