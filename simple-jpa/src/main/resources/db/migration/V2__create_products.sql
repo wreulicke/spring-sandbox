@@ -5,6 +5,6 @@ CREATE TABLE products (
 
 
 CREATE TABLE product_stocks (
-	product_id BIGINT not null PRIMARY KEY,
+	id BIGINT not null PRIMARY KEY,
 	count BIGINT NOT NULL
 )/*! CHARACTER SET utf8mb4 COLLATE utf8mb4_bin */;
