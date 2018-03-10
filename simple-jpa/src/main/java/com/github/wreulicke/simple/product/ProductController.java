@@ -25,19 +25,18 @@ package com.github.wreulicke.simple.product;
 
 import java.util.Optional;
 
-import javax.websocket.server.PathParam;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/products")
@@ -68,29 +67,31 @@ public class ProductController {
     return productResponse;
   }
 
-
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @GetMapping("/{productId}")
   @Transactional(readOnly = true)
-  public ResponseEntity<?> get(@PathParam("productId") Long productId) {
+  public ResponseEntity<?> get(@PathVariable("productId") Long productId) {
 
-    Optional<Product> product = productRepository.findById(productId);
+    Optional<Product> productOpt = productRepository.findById(productId);
 
-    if (!product.isPresent()) {
+    if (!productOpt.isPresent()) {
       return ResponseEntity.notFound()
         .build();
     }
 
-    return product.map(ProductResponse::new)
-      .map(ResponseEntity::ok)
-      .get();
-  }
+    Product p = productOpt.get();
 
+    Optional<ProductStock> stock = productStockRepository.findById(productId);
+
+    ProductResponse response = stock.map(s -> new ProductResponse(p, s))
+      .orElse(new ProductResponse(p));
+    return ResponseEntity.ok(response);
+  }
 
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @PostMapping("/{productId}")
   @Transactional
-  public ResponseEntity<?> update(@PathParam("productId") Long productId, @RequestBody UpdateProductRequest request) {
+  public ResponseEntity<?> update(@PathVariable("productId") Long productId, @RequestBody UpdateProductRequest request) {
     Optional<Product> product = productRepository.findById(productId);
 
     if (!product.isPresent()) {
@@ -106,10 +107,9 @@ public class ProductController {
     stock.ifPresent(s -> request.getCount()
       .ifPresent(s::setCount));
 
-    return product.map(ProductResponse::new)
-      .map(ResponseEntity::ok)
-      .get();
+    ProductResponse response = stock.map(s -> new ProductResponse(p, s))
+      .orElse(new ProductResponse(p));
+    return ResponseEntity.ok(response);
   }
-
 
 }
