@@ -23,21 +23,21 @@
  */
 package com.github.wreulicke.simple.product;
 
-import java.awt.*;
 import java.util.Optional;
 
 import javax.websocket.server.PathParam;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/products")
@@ -50,6 +50,7 @@ public class ProductController {
 
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @Transactional
   public ProductResponse create(@RequestBody CreateProductRequest request) {
     Product product = new Product();
     product.setDescription(request.getDescription());
@@ -70,6 +71,7 @@ public class ProductController {
 
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @GetMapping("/{productId}")
+  @Transactional(readOnly = true)
   public ResponseEntity<?> get(@PathParam("productId") Long productId) {
 
     Optional<Product> product = productRepository.findById(productId);
@@ -87,6 +89,7 @@ public class ProductController {
 
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @PostMapping("/{productId}")
+  @Transactional
   public ResponseEntity<?> update(@PathParam("productId") Long productId, @RequestBody UpdateProductRequest request) {
     Optional<Product> product = productRepository.findById(productId);
 

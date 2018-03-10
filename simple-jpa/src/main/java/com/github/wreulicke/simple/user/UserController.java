@@ -137,7 +137,7 @@ public class UserController {
 
 
   @GetMapping(path = "/{username}")
-  @Transactional
+  @Transactional(readOnly = true)
   public ResponseEntity<?> get(@PathVariable("username") String username) {
     Optional<User> userOpt = userRepository.findByUsername(username);
     if (!userOpt.isPresent()) {
