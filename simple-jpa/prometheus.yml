@@ -12,4 +12,4 @@ scrape_configs:
     metrics_path: '/prometheus'
     static_configs:
       - targets: 
-        - '192.168.0.6:8080' # todo Rewrite with bootJar and custome container
+        - 'app:8080' # todo Rewrite with bootJar and custome container
