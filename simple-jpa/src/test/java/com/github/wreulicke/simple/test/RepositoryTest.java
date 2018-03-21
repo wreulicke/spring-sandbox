@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.simple;
+package com.github.wreulicke.simple.test;
 
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
-@Configuration
-public class ObjectMapperCustomizer implements Jackson2ObjectMapperBuilderCustomizer {
+import com.github.wreulicke.simple.TestDatabaseConfiguration;
 
-  @Override
-  public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-    jacksonObjectMapperBuilder.modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule())
-      .serializationInclusion(JsonInclude.Include.NON_NULL);
-  }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Import(TestDatabaseConfiguration.class)
+@DataJpaTest
+public @interface RepositoryTest {
 }

@@ -21,38 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.simple.user;
+package com.github.wreulicke.simple.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.Collections;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.github.wreulicke.simple.TestDatabaseConfiguration;
 
-@RunWith(SpringRunner.class)
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@SpringBootTest
+@AutoConfigureMockMvc
 @Import(TestDatabaseConfiguration.class)
-@DataJpaTest
-public class UserAuthoritiesRepositoryTest {
-
-
-  @Autowired
-  UserAuthoritiesRepository repository;
-
-  @Test
-  public void testSave() {
-    UserAuthorities authorities = new UserAuthorities();
-    authorities.setUsername("test");
-    authorities.setAuthorities(Collections.singleton("ROLE_ADMIN"));
-    UserAuthorities actual = repository.save(authorities);
-    assertThat(actual).returns("test", UserAuthorities::getUsername)
-      .returns(Collections.singleton("ROLE_ADMIN"), UserAuthorities::getAuthorities);
-  }
+public @interface ControllerTest {
 }

@@ -35,22 +35,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.wreulicke.simple.TestDatabaseConfiguration;
+import com.github.wreulicke.simple.test.ControllerTest;
+import com.github.wreulicke.simple.test.WithAdmin;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(TestDatabaseConfiguration.class)
+@ControllerTest
 @RunWith(SpringRunner.class)
 public class UserControllerTest {
 
@@ -60,12 +54,9 @@ public class UserControllerTest {
   @Autowired
   ObjectMapper mapper;
 
-  @Autowired
-  PlatformTransactionManager platformTransactionManager;
-
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testCreate() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +68,7 @@ public class UserControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testDelete() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -96,7 +87,7 @@ public class UserControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testUpdate() throws Exception {
     CreateUserRequest request = new CreateUserRequest("test", "hogehoge");
     mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +112,7 @@ public class UserControllerTest {
 
   @Test
   // JPA取り扱い難しい。トランザクション境界の話があるので、ITでやる。あとh2で動かねぇ
-  @WithMockUser(roles = "ADMIN")
+  @WithAdmin
   public void testConflictedUpdate() throws Exception {
     try {
       CreateUserRequest request = new CreateUserRequest("test", "hogehoge");

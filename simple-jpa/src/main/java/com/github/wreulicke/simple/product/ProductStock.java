@@ -21,24 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.simple;
+package com.github.wreulicke.simple.product;
 
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import lombok.Data;
 
-@Configuration
-public class ObjectMapperCustomizer implements Jackson2ObjectMapperBuilderCustomizer {
+@Data
+@Entity
+@Table(name = "product_stocks")
+public class ProductStock {
 
-  @Override
-  public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-    jacksonObjectMapperBuilder.modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule())
-      .serializationInclusion(JsonInclude.Include.NON_NULL);
-  }
+  @Id
+  @Column
+  private Long id;
+
+  @Column
+  private long count;
 
 }

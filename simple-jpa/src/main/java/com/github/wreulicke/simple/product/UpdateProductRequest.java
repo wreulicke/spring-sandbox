@@ -21,24 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.simple;
+package com.github.wreulicke.simple.product;
 
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import lombok.Value;
 
-@Configuration
-public class ObjectMapperCustomizer implements Jackson2ObjectMapperBuilderCustomizer {
+@Value
+public class UpdateProductRequest {
 
-  @Override
-  public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-    jacksonObjectMapperBuilder.modules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule())
-      .serializationInclusion(JsonInclude.Include.NON_NULL);
-  }
+  private final Optional<String> description;
+
+  private final Optional<Long> count;
 
 }
