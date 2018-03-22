@@ -133,6 +133,8 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-web"
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.springframework.boot:spring-boot-starter-aop"
+  compile "org.springframework.boot:spring-boot-devtools"
+
 
   compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
