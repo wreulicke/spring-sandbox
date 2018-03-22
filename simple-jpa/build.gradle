@@ -41,6 +41,12 @@ jacocoTestReport {
   }
 }
 
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
+}
+
 spotless {
   def headerFile = "/** " + project.file("../LICENSE.md").text + "*/"
 
@@ -156,5 +162,9 @@ dependencies {
 
   testCompile "org.assertj:assertj-core:3.9.0"
   testCompile "org.mockito:mockito-core:2.15.0"
+
+  testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+  testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+  testRuntime 'org.junit.vintage:junit-vintage-engine:5.1.0'
 
 }
