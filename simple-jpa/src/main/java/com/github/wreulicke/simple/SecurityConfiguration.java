@@ -27,33 +27,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-  private final UserDetailsService userDetailsService;
-
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic()
-      .realmName("test")
-      .and()
-      .csrf()
-      .disable()
-      .authorizeRequests()
-      .anyRequest()
-      .authenticated();
-  }
-
-  @Bean
-  public PasswordEncoder bcrpt() {
-    return new BCryptPasswordEncoder();
-  }
-
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf()
+			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+		
+		http
+			.authorizeRequests()
+			.antMatchers("/login").permitAll()
+			.anyRequest().authenticated().and()
+			.httpBasic().realmName("clients").and()
+			.formLogin()
+			.loginProcessingUrl("/login")
+			.loginPage("/login")
+			.defaultSuccessUrl("/")
+			.and()
+			.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/login");
+	}
+	
+	@Bean
+	public PasswordEncoder bcrpt() {
+		return new BCryptPasswordEncoder();
+	}
 }

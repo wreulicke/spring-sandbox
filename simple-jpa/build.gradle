@@ -133,6 +133,11 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-web"
   compile "org.springframework.boot:spring-boot-starter-security"
   compile "org.springframework.boot:spring-boot-starter-aop"
+  compile "org.springframework.boot:spring-boot-devtools"
+
+  compile 'org.thymeleaf:thymeleaf:3.0.9.RELEASE'
+  compile 'org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE'
+  compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE'
 
   compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
@@ -144,7 +149,6 @@ dependencies {
   compile "org.zalando:logbook-spring-boot-starter:1.6.0"
 
   compile "io.micrometer:micrometer-spring-legacy:1.0.1"
-
   compile "io.micrometer:micrometer-registry-prometheus:1.0.1"
 
   compile "org.flywaydb:flyway-core"
