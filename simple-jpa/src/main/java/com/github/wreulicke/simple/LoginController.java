@@ -35,7 +35,9 @@ public class LoginController {
 
   @GetMapping("/login")
   public String login(Authentication authentication) {
-    log.info("test {}", authentication);
+    if (authentication != null) {
+      return "redirect:/health";
+    }
     return "login";
   }
 
