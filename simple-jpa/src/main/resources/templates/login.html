@@ -2,11 +2,11 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>ログイン画面</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css"/>
-    <style>
+  <title>ログイン画面</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css" />
+  <style>
     html,
     body {
       background-color: #00d1b2;
@@ -29,50 +29,46 @@
       background-color: white;
       padding: 10px;
     }
-
-    </style>
+  </style>
 </head>
 
 <body>
-<div class="root">
+  <div class="root">
     <div class="border-pad">
-        <div class="container">
-            <header class="header">
-                <div class="container">
-                    <div class="nav">
-                        <h1 class="nav-item title is-2">Login Form</h1>
-                    </div>
-                </div>
-            </header>
-            <div class="container">
-                <form id="login_form" method="post" th:action="@{/login}">
-                    <div class="field">
-                        <p class="controll">
-                            <label>ID</label>
-                            <input class="input" type="text" id="username" name="username" placeholder="id"
-                                   autofocus="autofocus" required="required"
-                            />
-                        </p>
-                    </div>
-                    <div class="field">
-                        <p class="controll">
-                            <label>Password</label>
-                            <input class="input" type="password" id="password" name="password" placeholder="password"
-                                   required="required"
-                            />
-                        </p>
-                    </div>
-                    <div class="field">
-                        <p class="controll">
-                            <input class="button is-primary" id="login_button" type="submit" value="ログイン"/>
-                        </p>
-                    </div>
-                </form>
+      <div class="container">
+        <header class="header">
+          <div class="container">
+            <div class="nav">
+              <h1 class="nav-item title is-2">Login Form</h1>
             </div>
+          </div>
+        </header>
+        <div class="container">
+          <form id="login_form" method="post" th:action="@{/login}">
+            <div class="field">
+              <p class="controll">
+                <label>ID</label>
+                <input class="input" type="text" id="username" name="username" placeholder="id" autofocus="autofocus" required="required"
+                />
+              </p>
+            </div>
+            <div class="field">
+              <p class="controll">
+                <label>Password</label>
+                <input class="input" type="password" id="password" name="password" placeholder="password" required="required" />
+              </p>
+            </div>
+            <div class="field">
+              <p class="controll">
+                <input class="button is-primary" id="login_button" type="submit" value="ログイン" />
+              </p>
+            </div>
+          </form>
         </div>
+      </div>
 
     </div>
-</div>
+  </div>
 </body>
 
 </html>
