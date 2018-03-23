@@ -45,7 +45,9 @@
         </header>
         <div class="container">
           <p>
-            <a th:href="@{/auth/twitter}">twitter</a>
+            <form method="post" th:action="@{/signin/twitter}">
+              <input class="button is-primary" type="submit" />
+            </form>
           </p>
           <form id="login_form" method="post" th:action="@{/login}">
             <div class="field">

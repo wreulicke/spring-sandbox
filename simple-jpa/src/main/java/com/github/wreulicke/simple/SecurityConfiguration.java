@@ -23,6 +23,10 @@
  */
 package com.github.wreulicke.simple;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,6 +39,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,8 +54,10 @@ import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SignInAdapter;
-import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.context.request.NativeWebRequest;
+
+import com.github.wreulicke.simple.user.UserAuthorities;
+import com.github.wreulicke.simple.user.UserAuthoritiesRepository;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -67,6 +74,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .permitAll()
       .antMatchers("/signup")
       .permitAll()
+      .antMatchers("/signin/*")
+      .permitAll()
       .anyRequest()
       .authenticated()
       .and()
@@ -80,9 +89,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .and()
       .logout()
       .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-      .logoutSuccessUrl("/login")
-      .and()
-      .apply(new SpringSocialConfigurer());
+      .logoutSuccessUrl("/login");
   }
 
   @Bean
@@ -96,8 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public SignInAdapter signInAdapter() {
-    return new SimpleSignInAdapter(new HttpSessionRequestCache());
+  public SignInAdapter signInAdapter(UserAuthoritiesRepository repository) {
+    return new SimpleSignInAdapter(new HttpSessionRequestCache(), repository);
   }
 
   @RequiredArgsConstructor
@@ -105,9 +112,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final RequestCache requestCache;
 
+    private final UserAuthoritiesRepository repository;
+
     @Override
     public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
-      Authentication authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
+      Set<SimpleGrantedAuthority> authorities = repository.findByUsername(userId)
+        .map(UserAuthorities::getAuthorities)
+        .map(set -> set.stream()
+          .map(SimpleGrantedAuthority::new)
+          .collect(Collectors.toSet()))
+        .orElse(Collections.emptySet());
+      Authentication authentication = new UsernamePasswordAuthenticationToken(userId, null, authorities);
       SecurityContextHolder.getContext()
         .setAuthentication(authentication);
       return extractOriginalUrl(request);
@@ -118,7 +133,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       HttpServletResponse nativeRes = request.getNativeResponse(HttpServletResponse.class);
       SavedRequest saved = requestCache.getRequest(nativeReq, nativeRes);
       if (saved == null) {
-        return null;
+        return "/health";
       }
       requestCache.removeRequest(nativeReq, nativeRes);
       removeAuthenticationAttributes(nativeReq.getSession(false));

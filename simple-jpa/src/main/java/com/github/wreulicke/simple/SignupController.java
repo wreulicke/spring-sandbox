@@ -96,7 +96,7 @@ public class SignupController {
     userRepository.save(user);
     UserAuthorities authorities = new UserAuthorities();
     authorities.setUsername(signupRequest.getUsername());
-    authorities.setAuthorities(Collections.singleton("ROLE_ADMIN"));
+    authorities.setAuthorities(Collections.singleton("ADMIN"));
     userAuthoritiesRepository.save(authorities);
     return new CustomUserDetails(user, authorities);
   }
