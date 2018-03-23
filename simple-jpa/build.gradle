@@ -42,9 +42,9 @@ jacocoTestReport {
 }
 
 test {
-    useJUnitPlatform {
-        includeEngines 'junit-jupiter', 'junit-vintage'
-    }
+  useJUnitPlatform {
+    includeEngines 'junit-jupiter', 'junit-vintage'
+  }
 }
 
 spotless {
@@ -59,9 +59,9 @@ spotless {
   }
 
   format 'misc', {
-    target '**/*.gradle'
-    
-    indentWithSpaces(2) 
+    target '*.gradle'
+
+    indentWithSpaces(2)
     endWithNewline()
   }
 }
@@ -105,12 +105,12 @@ pmd {
 
 pmdMain {
   ruleSetFiles = project.files("pmd.xml")
-  ruleSets = []  
+  ruleSets = []
 }
 
 pmdTest {
   ruleSetFiles = project.files("pmd.xml")
-  ruleSets = []  
+  ruleSets = []
 }
 
 def defaultEncoding = 'UTF-8'
@@ -139,10 +139,14 @@ dependencies {
   compile 'org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE'
   compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE'
 
+  compile "org.springframework.social:spring-social-web"
+  compile "org.springframework.social:spring-social-security"
+  compile "org.springframework.social:spring-social-twitter"
+
   compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
   compile "com.zaxxer:HikariCP:2.7.8"
-  
+
   compile "com.fasterxml.jackson.module:jackson-module-parameter-names"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"

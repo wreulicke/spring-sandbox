@@ -23,20 +23,30 @@
  */
 package com.github.wreulicke.simple;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.security.core.Authentication;
+import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@Slf4j
-public class LoginController {
+public class CustomConnectController extends ConnectController {
 
-  @GetMapping("/login")
-  public String login(Authentication authentication) {
-    log.info("test {}", authentication);
-    return "login";
+  /**
+   * Constructs a ConnectController.
+   *
+   * @param connectionFactoryLocator the locator for {@link ConnectionFactory} instances needed to
+   *        establish connections
+   * @param connectionRepository the current user's {@link ConnectionRepository} needed to persist
+   *        connections; must be a proxy to a request-scoped bean
+   */
+  public CustomConnectController(ConnectionFactoryLocator connectionFactoryLocator, ConnectionRepository connectionRepository) {
+    super(connectionFactoryLocator, connectionRepository);
+  }
+
+  @Override
+  protected String connectedView(String providerId) {
+    return "redirect:/health";
   }
 
 }
