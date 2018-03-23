@@ -42,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
   private final String password;
 
-  CustomUserDetails(User user, UserAuthorities authorities) {
+  public CustomUserDetails(User user, UserAuthorities authorities) {
     this.username = user.getUsername();
     this.password = user.getPassword();
     this.authorities = authorities.getAuthorities()

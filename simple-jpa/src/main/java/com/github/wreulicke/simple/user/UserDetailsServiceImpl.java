@@ -25,18 +25,22 @@ package com.github.wreulicke.simple.user;
 
 import java.util.Optional;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService, SocialUserDetailsService {
 
   private final UserRepository userRepository;
 
@@ -48,5 +52,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return userOpt.flatMap(user -> userAuthoritiesRepository.findByUsername(user.getUsername())
       .map(authorities -> new CustomUserDetails(user, authorities)))
       .orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` is not found"));
+  }
+
+  @Override
+  public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+    return new SimpleSocialUserDetails(loadUserByUsername(userId), userId);
+  }
+
+  @RequiredArgsConstructor
+  private static class SimpleSocialUserDetails implements SocialUserDetails {
+
+    @Delegate
+    private final UserDetails userDetails;
+
+    @Getter
+    private final String userId;
   }
 }
