@@ -144,7 +144,7 @@ dependencies {
   annotationProcessor "org.projectlombok:lombok:1.18.0"
 
   runtime "org.springframework.boot:spring-boot-devtools"
-  runtime "mysql:mysql-connector-java"
+  compile "mysql:mysql-connector-java"
 
   testCompile "com.wix:wix-embedded-mysql:4.1.0"
 
