@@ -77,8 +77,10 @@ public class SimpleApplicationTests {
       .filter(cookie -> cookie.getName()
         .equals("XSRF-TOKEN"))
       .findFirst();
-    headers.add("X-XSRF-TOKEN=", cookieOpt.orElseThrow(RuntimeException::new)
-      .getValue());
+      headers.add("Cookie", "XSRF-TOKEN=" + cookieOpt.orElseThrow(RuntimeException::new)
+        .getValue());
+      headers.add("X-XSRF-TOKEN", cookieOpt.orElseThrow(RuntimeException::new)
+          .getValue());
 
     responseEntity = template.postForEntity("/users", new HttpEntity<>(request, headers), String.class);
     assertThat(responseEntity).returns(HttpStatus.OK, ResponseEntity::getStatusCode);
