@@ -29,12 +29,15 @@ import java.net.HttpCookie;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -43,19 +46,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wreulicke.simple.user.CreateUserRequest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(TestDatabaseConfiguration.class)
+@Slf4j
 public class SimpleApplicationTests {
 
   @Autowired
   TestRestTemplate template;
-
-  @Autowired
-  ObjectMapper objectMapper;
 
   @Test
   public void createUser() throws JsonProcessingException {
@@ -77,12 +77,12 @@ public class SimpleApplicationTests {
       .filter(cookie -> cookie.getName()
         .equals("XSRF-TOKEN"))
       .findFirst();
-      headers.add("Cookie", "XSRF-TOKEN=" + cookieOpt.orElseThrow(RuntimeException::new)
-        .getValue());
-      headers.add("X-XSRF-TOKEN", cookieOpt.orElseThrow(RuntimeException::new)
-          .getValue());
+    headers.add("Cookie", "XSRF-TOKEN=" + cookieOpt.orElseThrow(RuntimeException::new)
+      .getValue());
+    headers.add("X-XSRF-TOKEN", cookieOpt.orElseThrow(RuntimeException::new)
+      .getValue());
 
-    responseEntity = template.postForEntity("/users", new HttpEntity<>(request, headers), String.class);
+    responseEntity = template.exchange("/users", HttpMethod.POST, new HttpEntity<>(request, headers), String.class);
     assertThat(responseEntity).returns(HttpStatus.OK, ResponseEntity::getStatusCode);
   }
 }
