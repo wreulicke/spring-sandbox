@@ -94,20 +94,6 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
   }
 }
 
-pmd {
-  consoleOutput = true
-}
-
-pmdMain {
-  ruleSetFiles = project.files("pmd.xml")
-  ruleSets = []
-}
-
-pmdTest {
-  ruleSetFiles = project.files("pmd.xml")
-  ruleSets = []
-}
-
 def defaultEncoding = 'UTF-8'
 
 tasks.withType(AbstractCompile).each {
