@@ -38,6 +38,8 @@ import com.github.wreulicke.simple.TestDatabaseConfiguration;
 @Target(ElementType.TYPE)
 @SpringBootTest
 @AutoConfigureMockMvc
-@Import(TestDatabaseConfiguration.class)
+@Import({
+  TestDatabaseConfiguration.class, MockMvcCustomizeConfiguration.class
+})
 public @interface ControllerTest {
 }

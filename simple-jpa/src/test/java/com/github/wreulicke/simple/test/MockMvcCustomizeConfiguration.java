@@ -21,31 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.wreulicke.simple;
+package com.github.wreulicke.simple.test;
 
-import javax.sql.DataSource;
-
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcBuilderCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.social.config.annotation.SocialConfigurerAdapter;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcConfigurerAdapter;
+import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
-@RequiredArgsConstructor
-@ConditionalOnBean(ConnectionFactoryLocator.class)
-public class SocialConfiguration extends SocialConfigurerAdapter {
+public class MockMvcCustomizeConfiguration {
 
-  private final DataSource dataSource;
-
-  @Override
-  public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-    JdbcUsersConnectionRepository connectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors
-      .noOpText());
-    return connectionRepository;
+  @Bean
+  MockMvcBuilderCustomizer customizer() {
+    return builder -> builder.apply(new MockMvcConfigurerAdapter() {
+      @Override
+      public RequestPostProcessor beforeMockMvcCreated(ConfigurableMockMvcBuilder<?> builder, WebApplicationContext cxt) {
+        return SecurityMockMvcRequestPostProcessors.csrf();
+      }
+    });
   }
 }

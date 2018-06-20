@@ -37,7 +37,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ToString(exclude = "password")
 @EqualsAndHashCode
@@ -63,7 +63,8 @@ public class CreateUserRequest {
   }
 
   @JsonCreator
-  public CreateUserRequest(@NonNull String username, @NonNull String password, Optional<Set<String>> authorities) {
+  public CreateUserRequest(@JsonProperty("username") @NonNull String username, @JsonProperty("password") @NonNull String password,
+    @JsonProperty("authorities") Optional<Set<String>> authorities) {
     this.username = username;
     this.password = password;
     this.authorities = authorities.orElse(Collections.singleton("USER"));
