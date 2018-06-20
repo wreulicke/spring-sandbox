@@ -8,7 +8,7 @@ buildscript {
   }
   dependencies {
     classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
+    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.13.0"
     classpath "de.thetaphi:forbiddenapis:2.5"
     classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.2"
     classpath "io.spring.gradle:dependency-management-plugin:1.0.4.RELEASE"
