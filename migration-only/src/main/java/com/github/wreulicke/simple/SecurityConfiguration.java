@@ -36,47 +36,47 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @ConditionalOnWebApplication
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf()
-			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-		
-		http.authorizeRequests()
-			.antMatchers("/login")
-			.permitAll()
-			.antMatchers("/auth/*")
-			.permitAll()
-			.antMatchers("/signup")
-			.permitAll()
-			.antMatchers("/signin/*")
-			.permitAll()
-			.anyRequest()
-			.authenticated()
-			.and()
-			.httpBasic()
-			.realmName("clients")
-			.and()
-			.formLogin()
-			.loginProcessingUrl("/login")
-			.loginPage("/login")
-			.defaultSuccessUrl("/")
-			.and()
-			.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/login");
-	}
-	
-	
-	@Configuration
-	public static class PasswordEncoderConfiguration {
-		
-		@Bean
-		public PasswordEncoder bcrpt() {
-			return new BCryptPasswordEncoder();
-		}
-		
-	}
-	
-	
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf()
+      .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+    http.authorizeRequests()
+      .antMatchers("/login")
+      .permitAll()
+      .antMatchers("/auth/*")
+      .permitAll()
+      .antMatchers("/signup")
+      .permitAll()
+      .antMatchers("/signin/*")
+      .permitAll()
+      .anyRequest()
+      .authenticated()
+      .and()
+      .httpBasic()
+      .realmName("clients")
+      .and()
+      .formLogin()
+      .loginProcessingUrl("/login")
+      .loginPage("/login")
+      .defaultSuccessUrl("/")
+      .and()
+      .logout()
+      .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+      .logoutSuccessUrl("/login");
+  }
+
+
+  @Configuration
+  public static class PasswordEncoderConfiguration {
+
+    @Bean
+    public PasswordEncoder bcrpt() {
+      return new BCryptPasswordEncoder();
+    }
+
+  }
+
+
 }

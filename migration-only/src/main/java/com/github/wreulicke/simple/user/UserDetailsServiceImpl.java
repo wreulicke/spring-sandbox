@@ -37,17 +37,17 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-	
-	private final UserRepository userRepository;
-	
-	private final UserAuthoritiesRepository userAuthoritiesRepository;
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> userOpt = userRepository.findByUsername(username);
-		return userOpt.flatMap(user -> userAuthoritiesRepository.findByUsername(user.getUsername())
-			.map(authorities -> new CustomUserDetails(user, authorities)))
-			.orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` is not found"));
-	}
-	
+
+  private final UserRepository userRepository;
+
+  private final UserAuthoritiesRepository userAuthoritiesRepository;
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<User> userOpt = userRepository.findByUsername(username);
+    return userOpt.flatMap(user -> userAuthoritiesRepository.findByUsername(user.getUsername())
+      .map(authorities -> new CustomUserDetails(user, authorities)))
+      .orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` is not found"));
+  }
+
 }

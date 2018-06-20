@@ -50,44 +50,43 @@ import com.github.wreulicke.simple.user.UserRepository;
 @RequiredArgsConstructor
 @Controller
 public class SignupController {
-	
-	private final UserRepository userRepository;
-	
-	private final UserAuthoritiesRepository userAuthoritiesRepository;
-	
-	private final PasswordEncoder encoder;
-	
-	private final PlatformTransactionManager platformTransactionManager;
-	
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public SignupForm signupForm() {
-		SignupForm signupForm = new SignupForm();
-		return signupForm;
-	}
-	
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@Valid SignupForm signupForm, BindingResult formBinding) {
-		if (formBinding.hasErrors()) {
-			return null;
-		}
-		
-		UserDetails user = new TransactionTemplate(platformTransactionManager).execute(attr -> createUser(signupForm));
-		Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), null,
-			user.getAuthorities());
-		SecurityContextHolder.getContext()
-			.setAuthentication(authentication);
-		return "redirect:/health";
-	}
-	
-	private UserDetails createUser(SignupForm signupRequest) {
-		User user = new User();
-		user.setUsername(signupRequest.getUsername());
-		user.setPassword(encoder.encode(signupRequest.getPassword()));
-		userRepository.save(user);
-		UserAuthorities authorities = new UserAuthorities();
-		authorities.setUsername(signupRequest.getUsername());
-		authorities.setAuthorities(Collections.singleton("ADMIN"));
-		userAuthoritiesRepository.save(authorities);
-		return new CustomUserDetails(user, authorities);
-	}
+
+  private final UserRepository userRepository;
+
+  private final UserAuthoritiesRepository userAuthoritiesRepository;
+
+  private final PasswordEncoder encoder;
+
+  private final PlatformTransactionManager platformTransactionManager;
+
+  @RequestMapping(value = "/signup", method = RequestMethod.GET)
+  public SignupForm signupForm() {
+    SignupForm signupForm = new SignupForm();
+    return signupForm;
+  }
+
+  @RequestMapping(value = "/signup", method = RequestMethod.POST)
+  public String signup(@Valid SignupForm signupForm, BindingResult formBinding) {
+    if (formBinding.hasErrors()) {
+      return null;
+    }
+
+    UserDetails user = new TransactionTemplate(platformTransactionManager).execute(attr -> createUser(signupForm));
+    Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+    SecurityContextHolder.getContext()
+      .setAuthentication(authentication);
+    return "redirect:/health";
+  }
+
+  private UserDetails createUser(SignupForm signupRequest) {
+    User user = new User();
+    user.setUsername(signupRequest.getUsername());
+    user.setPassword(encoder.encode(signupRequest.getPassword()));
+    userRepository.save(user);
+    UserAuthorities authorities = new UserAuthorities();
+    authorities.setUsername(signupRequest.getUsername());
+    authorities.setAuthorities(Collections.singleton("ADMIN"));
+    userAuthoritiesRepository.save(authorities);
+    return new CustomUserDetails(user, authorities);
+  }
 }

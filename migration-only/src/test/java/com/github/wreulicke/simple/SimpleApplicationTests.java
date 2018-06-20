@@ -46,7 +46,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wreulicke.simple.user.CreateUserRequest;
 
 @RunWith(SpringRunner.class)
@@ -81,7 +80,7 @@ public class SimpleApplicationTests {
     headers.add("Cookie", "XSRF-TOKEN=" + cookieOpt.orElseThrow(RuntimeException::new)
       .getValue());
     headers.add("X-XSRF-TOKEN", cookieOpt.orElseThrow(RuntimeException::new)
-        .getValue());
+      .getValue());
 
     responseEntity = template.exchange("/users", HttpMethod.POST, new HttpEntity<>(request, headers), String.class);
     assertThat(responseEntity).returns(HttpStatus.OK, ResponseEntity::getStatusCode);
