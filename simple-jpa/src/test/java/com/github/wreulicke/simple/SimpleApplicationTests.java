@@ -25,7 +25,9 @@ package com.github.wreulicke.simple;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.net.HttpCookie;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,18 +57,30 @@ public class SimpleApplicationTests {
   @Autowired
   ObjectMapper objectMapper;
 
-
   @Test
   public void createUser() throws JsonProcessingException {
     HttpHeaders headers = new HttpHeaders();
     byte[] encoded = java.util.Base64.getEncoder()
       .encode("admin:admin".getBytes(StandardCharsets.UTF_8));
     headers.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded, StandardCharsets.UTF_8));
+
     CreateUserRequest request = new CreateUserRequest("test", "test");
     HttpEntity<CreateUserRequest> entity = new HttpEntity<>(request, headers);
 
     ResponseEntity<String> responseEntity = template.postForEntity("/users", entity, String.class);
+    String value = responseEntity.getHeaders()
+      .get("Set-Cookie")
+      .iterator()
+      .next();
+    Optional<HttpCookie> cookieOpt = HttpCookie.parse(value)
+      .stream()
+      .filter(cookie -> cookie.getName()
+        .equals("XSRF-TOKEN"))
+      .findFirst();
+    headers.add("X-XSRF-TOKEN=", cookieOpt.orElseThrow(RuntimeException::new)
+      .getValue());
 
+    responseEntity = template.postForEntity("/users", new HttpEntity<>(request, headers), String.class);
     assertThat(responseEntity).returns(HttpStatus.OK, ResponseEntity::getStatusCode);
   }
 }

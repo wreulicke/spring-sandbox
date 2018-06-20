@@ -28,8 +28,6 @@ import static com.wix.mysql.distribution.Version.v5_7_latest;
 
 import java.io.IOException;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
@@ -62,7 +60,6 @@ public class TestDatabaseConfiguration {
   DataSourceProperties dataSourceProperties() throws IOException {
     MysqldConfig config = embeddedMysql().getConfig();
     DataSourceProperties dataSourceProperties = new DataSourceProperties();
-    dataSourceProperties.setType(DataSource.class);
     dataSourceProperties.setUrl("jdbc:mysql://localhost:" + config.getPort() + "/test");
     dataSourceProperties.setDriverClassName("com.mysql.jdbc.Driver");
     dataSourceProperties.setUsername(config.getUsername());

@@ -29,6 +29,7 @@ import java.util.Set;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -53,7 +54,8 @@ public class UpdateUserRequest {
   }
 
   @JsonCreator
-  public UpdateUserRequest(@NonNull Optional<String> username, @NonNull Optional<String> password, @NonNull Optional<Set<String>> authorities) {
+  public UpdateUserRequest(@JsonProperty("username") @NonNull Optional<String> username, @JsonProperty("password") @NonNull Optional<String> password,
+    @JsonProperty("authorities") @NonNull Optional<Set<String>> authorities) {
     this.username = username;
     this.password = password;
     this.authorities = authorities;
