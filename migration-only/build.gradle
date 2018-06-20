@@ -108,7 +108,7 @@ bootRun {
 }
 
 
-task bootRunBatchMode(type: org.springframework.boot.gradle.run.BootRunTask) {
+task bootRunOnlyMigration(type: org.springframework.boot.gradle.run.BootRunTask) {
   main "com.github.wreulicke.simple.SimpleApplication"
   classpath = sourceSets.main.runtimeClasspath
   args = [
