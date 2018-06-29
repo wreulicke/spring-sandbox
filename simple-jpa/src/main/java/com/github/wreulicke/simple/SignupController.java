@@ -29,6 +29,7 @@ import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,7 +60,8 @@ public class SignupController {
 
   private final UserAuthoritiesRepository userAuthoritiesRepository;
 
-  private final ProviderSignInUtils providerSignInUtils;
+  @Autowired(required = false)
+  ProviderSignInUtils providerSignInUtils;
 
   private final PasswordEncoder encoder;
 
@@ -67,11 +69,13 @@ public class SignupController {
 
   @RequestMapping(value = "/signup", method = RequestMethod.GET)
   public SignupForm signupForm(WebRequest webRequest) {
-    Connection<?> connection = providerSignInUtils.getConnectionFromSession(webRequest);
-
-    UserProfile userProfile = connection.fetchUserProfile();
     SignupForm signupForm = new SignupForm();
-    signupForm.setUsername(userProfile.getUsername());
+    if (providerSignInUtils != null) {
+      Connection<?> connection = providerSignInUtils.getConnectionFromSession(webRequest);
+      UserProfile userProfile = connection.fetchUserProfile();
+      signupForm.setUsername(userProfile.getUsername());
+    }
+
     return signupForm;
   }
 
@@ -85,7 +89,9 @@ public class SignupController {
     Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
     SecurityContextHolder.getContext()
       .setAuthentication(authentication);
-    providerSignInUtils.doPostSignUp(user.getUsername(), webRequest);
+    if (providerSignInUtils != null) {
+      providerSignInUtils.doPostSignUp(user.getUsername(), webRequest);
+    }
     return "redirect:/health";
   }
 

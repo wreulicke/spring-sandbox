@@ -23,6 +23,7 @@
  */
 package com.github.wreulicke.simple;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
@@ -30,6 +31,7 @@ import org.springframework.social.connect.web.ConnectController;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@ConditionalOnBean(ConnectionFactoryLocator.class)
 public class CustomConnectController extends ConnectController {
 
   /**
