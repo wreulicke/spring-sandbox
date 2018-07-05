@@ -36,7 +36,7 @@ CREATE TABLE user_authorities (
 ## build.gradleをspring boot向けにちょこちょこ書いていきます。
 
 Minimalな感じでSpring Bootが起動しそうなbuild.gradleを抜粋してきました。
-本来使っている設定はこちらのリポジトリをご覧ください。
+本来使っている設定は[こちらのリポジトリ](https://github.com/wreulicke/spring-sandbox/tree/master/migration-only)をご覧ください。
 
 ```groovy
 buildscript {
